@@ -2,299 +2,683 @@
 <html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#07090d">
 <title>JM Vocal Channel — one plug-in for the whole vocal mix</title>
 <meta name="description" content="JM Vocal Channel by JM Records: EQ, de-esser, three compressors, saturation and colour in one vocal plug-in. Press LEARN, pick a vocal type, done. Zero latency. macOS (AU, VST3) and Windows (VST3).">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JM Vocal Channel — one plug-in for the whole vocal mix">
+<meta property="og:description" content="Press LEARN, pick a vocal type, done. EQ, de-esser, three compressors, saturation and colour. Zero latency. macOS and Windows.">
+<meta property="og:image" content="https://iamthearpan.github.io/jm-vocal-channel-download/img/editor_main.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ffa83a'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='800' font-size='15' text-anchor='middle' fill='%231b1204'%3EJM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0f16; --panel:#121927; --panel2:#182033; --line:#26314a; --text:#e8edf6; --muted:#9aa7bd;
-  --accent:#ffb347; --accent2:#2bd4bd; --ink:#1b1204; --warn:#ff7a59;
+  --bg:#07090d; --bg2:#0c1018; --panel:#0f141d; --panel2:#151b27; --line:#1f2838; --line2:#2b3650;
+  --text:#eef2f9; --muted:#97a3b8; --dim:#6b778c;
+  --amber:#ffa83a; --amber2:#ffc978; --teal:#2fe0c4; --red:#ff6a4d; --ink:#1b1204;
+  --r:18px;
+  --display:"Bricolage Grotesque","Hind Siliguri",system-ui,sans-serif;
+  --body:"Figtree","Hind Siliguri",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Bengali","Nirmala UI",Helvetica,Arial,sans-serif}
-a{color:var(--accent2)}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-header.top{position:sticky;top:0;z-index:5;background:rgba(11,15,22,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;color:var(--text)}
-.logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#ffc56b,#ff9a2e);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:13px}
-nav{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:14px}
-nav a{color:var(--muted);text-decoration:none}
-nav a:hover{color:var(--text)}
-.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-.lang button{background:none;border:0;color:var(--muted);padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--accent);color:var(--ink);font-weight:700}
-.bn{display:none}
-html[data-lang="bn"] .bn{display:revert}
-html[data-lang="bn"] .en{display:none}
-html[data-lang="bn"] span.bn,html[data-lang="bn"] a.bn,html[data-lang="bn"] b.bn,html[data-lang="bn"] i.bn,html[data-lang="bn"] code.bn{display:inline}
-.hero{padding:56px 0 32px;text-align:center}
-.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.14em;font-size:13px;text-transform:uppercase}
-h1{font-size:clamp(32px,6vw,54px);line-height:1.12;margin:10px 0 14px}
-.lead{max-width:720px;margin:0 auto;color:var(--muted);font-size:18px}
-.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:28px 0 8px}
-.btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;padding:13px 26px;border-radius:14px;font-weight:700;border:1px solid transparent;min-width:230px}
-.btn small{font-weight:500;font-size:12.5px;opacity:.85}
-.btn.primary{background:linear-gradient(180deg,#ffc56b,#ffa133);color:var(--ink)}
-.btn.ghost{background:var(--panel);border-color:var(--line);color:var(--text)}
-.btn:hover{filter:brightness(1.08)}
-.fine{color:var(--muted);font-size:13.5px;text-align:center}
-section{padding:44px 0;border-top:1px solid var(--line)}
-h2{font-size:28px;margin:0 0 8px}
-h3{margin:0 0 6px;font-size:18px}
-.sub{color:var(--muted);margin:0 0 22px;max-width:760px}
-.shot{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
-.cap{color:var(--muted);font-size:13.5px;margin:8px 0 0;text-align:center}
-.grid{display:grid;gap:16px}
-.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
-.card p{margin:6px 0 0;color:var(--muted)}
-.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);margin-bottom:8px}
-.dl h3{font-size:22px}
-.dl .btn{width:100%;margin-top:14px}
-.hash{font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);word-break:break-all;margin-top:12px}
-ol.steps{margin:10px 0 0;padding-left:22px}
-ol.steps li{margin:8px 0}
-code,.mono{font:13.5px ui-monospace,Menlo,Consolas,monospace;background:#0a0e15;border:1px solid var(--line);border-radius:6px;padding:1px 6px;word-break:break-word}
-pre{margin:10px 0;background:#0a0e15;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow:auto;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace}
-table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-th,td{padding:14px 18px;text-align:left}
-th{background:var(--panel2);color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em}
-tr+tr td{border-top:1px solid var(--line)}
-td.price{font-weight:800;font-size:20px;color:var(--accent);white-space:nowrap}
-tr.best td{background:rgba(255,179,71,.07)}
-.note{border-left:4px solid var(--accent2);background:var(--panel);padding:14px 18px;border-radius:0 12px 12px 0;margin:18px 0;color:var(--muted)}
-.note.warn{border-left-color:var(--warn)}
-.note b{color:var(--text)}
-details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 18px;margin:10px 0}
-summary{cursor:pointer;font-weight:600}
-details p{color:var(--muted);margin:8px 0 0}
-footer{padding:34px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;text-align:center}
-@media (max-width:560px){th,td{padding:12px}.btn{min-width:0;width:100%}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16.5px/1.65 var(--body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--teal)}
+svg.i{width:1.25em;height:1.25em;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+html:not([data-lang="bn"]) .bn{display:none!important}
+html[data-lang="bn"] .en{display:none!important}
+html[data-lang="bn"] h1,html[data-lang="bn"] h2,html[data-lang="bn"] h3,html[data-lang="bn"] .amt{letter-spacing:0!important;line-height:1.3}
+html[data-lang="bn"] body{line-height:1.8}
+h1,h2,h3{font-family:var(--display);margin:0}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:500 12.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--amber)}
+.sec{padding:84px 0;position:relative}
+.sec-h{max-width:760px;margin-bottom:36px}
+.sec-h h2{font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-.03em;font-weight:700;margin-top:14px}
+.sec-h p{color:var(--muted);margin:14px 0 0;font-size:17.5px}
+
+/* header */
+.nav{position:fixed;top:12px;left:0;right:0;z-index:50;pointer-events:none}
+.nav .bar{pointer-events:auto;max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 8px 8px 14px;width:calc(100% - 24px);border-radius:999px;background:rgba(12,16,24,.72);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font:700 16px/1 var(--display);letter-spacing:-.01em}
+.logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(145deg,#ffd089,#ff9a24);color:var(--ink);display:grid;place-items:center;font:800 12.5px/1 var(--display);box-shadow:0 0 24px rgba(255,168,58,.35)}
+.links{display:none;gap:4px}
+.links a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 12px;border-radius:999px}
+.links a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.navr{display:flex;align-items:center;gap:8px}
+.lang{display:inline-flex;border:1px solid var(--line2);border-radius:999px;padding:2px;background:rgba(255,255,255,.03)}
+.lang button{border:0;background:none;color:var(--muted);font:600 13px/1 var(--body);padding:8px 12px;border-radius:999px;cursor:pointer;min-height:34px}
+.lang button[aria-pressed="true"]{background:var(--amber);color:var(--ink)}
+@media(min-width:900px){.links{display:flex}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:14px;font:700 16px/1 var(--body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s;color:var(--text)}
+.btn:active{transform:scale(.98)}
+.btn-p{background:linear-gradient(180deg,#ffd089 0%,#ffa83a 100%);color:var(--ink);box-shadow:0 8px 30px -6px rgba(255,168,58,.55),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn-p:hover{box-shadow:0 12px 40px -6px rgba(255,168,58,.75),inset 0 1px 0 rgba(255,255,255,.5);transform:translateY(-1px)}
+.btn-g{background:rgba(255,255,255,.04);border-color:var(--line2)}
+.btn-g:hover{background:rgba(255,255,255,.08);border-color:#3b4a6b}
+.btn-sm{min-height:44px;padding:0 18px;font-size:15px;border-radius:12px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:8px}
+
+/* hero */
+.hero{padding:132px 0 40px;position:relative;text-align:center;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-10% -10% auto -10%;height:680px;background:radial-gradient(60% 55% at 50% 0%,rgba(255,168,58,.22),transparent 70%),radial-gradient(40% 40% at 85% 25%,rgba(47,224,196,.12),transparent 70%),radial-gradient(40% 40% at 10% 30%,rgba(120,100,255,.08),transparent 70%);pointer-events:none}
+.hero>.wrap{position:relative}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.035);font-size:13.5px;color:var(--muted)}
+.pill b{background:var(--amber);color:var(--ink);border-radius:999px;padding:3px 9px;font:600 11.5px/1.2 var(--mono);letter-spacing:.06em}
+h1.big{font-size:clamp(42px,10.5vw,92px);line-height:.98;letter-spacing:-.045em;font-weight:800;margin:22px auto 0;max-width:15ch}
+h1.big em{font-style:normal;background:linear-gradient(100deg,#ffd089,#ffa83a 45%,#ff7a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:640px;margin:22px auto 0;color:var(--muted);font-size:clamp(17px,2.6vw,20px)}
+.cta{display:flex;flex-direction:column;gap:12px;align-items:stretch;max-width:420px;margin:32px auto 0}
+.cta .btn{width:100%}
+@media(min-width:640px){.cta{flex-direction:row;max-width:none;justify-content:center}.cta .btn{width:auto}}
+.chips{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin:26px 0 0;padding:0;list-style:none;color:var(--muted);font-size:14px}
+.chips li{display:inline-flex;align-items:center;gap:8px}
+.chips svg{color:var(--teal)}
+.note-m{display:none;margin:18px auto 0;max-width:460px;padding:12px 16px;border-radius:14px;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:var(--muted);font-size:14.5px;text-align:left}
+html.touch .note-m{display:block}
+.note-m button{margin-top:10px}
+
+/* stage */
+.stage{margin:54px auto 0;max-width:1000px;position:relative}
+.stage::before{content:"";position:absolute;left:8%;right:8%;bottom:-40px;height:120px;background:radial-gradient(50% 100% at 50% 0%,rgba(255,168,58,.35),transparent 70%);filter:blur(30px);z-index:0}
+.frame{position:relative;z-index:1;display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;border-radius:20px;padding:7px;background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.03) 40%,rgba(255,168,58,.25));box-shadow:0 40px 90px -30px rgba(0,0,0,.9)}
+.frame img{border-radius:14px;width:100%}
+@media(min-width:900px){.frame{transform:perspective(1600px) rotateX(5deg);transition:transform .5s}.frame:hover{transform:perspective(1600px) rotateX(0)}}
+.meter{display:flex;gap:4px;align-items:flex-end;justify-content:center;height:44px;margin:28px auto 0;max-width:520px;opacity:.9}
+.meter i{flex:1;max-width:11px;height:100%;border-radius:2px;position:relative;overflow:hidden;background:linear-gradient(to top,var(--teal),#7be85f 45%,var(--amber) 72%,var(--red));-webkit-mask:repeating-linear-gradient(to top,#000 0 3px,transparent 3px 5px);mask:repeating-linear-gradient(to top,#000 0 3px,transparent 3px 5px);transform-origin:bottom;animation:lvl var(--t,1.6s) ease-in-out var(--d,0s) infinite alternate}
+@keyframes lvl{0%{transform:scaleY(.12)}100%{transform:scaleY(var(--m,.8))}}
+.tap{display:block;text-align:center;color:var(--dim);font-size:13px;margin-top:14px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:60px}
+.stat{background:var(--bg2);padding:26px 18px;text-align:center}
+.stat b{display:block;font:700 clamp(30px,6vw,46px)/1 var(--display);letter-spacing:-.03em;background:linear-gradient(180deg,#fff,#b5c0d6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{display:block;margin-top:8px;color:var(--muted);font-size:14px}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+
+/* steps */
+.steps3{display:grid;gap:16px;counter-reset:s}
+@media(min-width:820px){.steps3{grid-template-columns:repeat(3,1fr)}}
+.st{counter-increment:s;position:relative;padding:28px 24px 26px;border-radius:var(--r);background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);overflow:hidden}
+.st::after{content:counter(s,decimal-leading-zero);position:absolute;right:18px;top:6px;font:800 76px/1 var(--display);color:rgba(255,255,255,.04)}
+.ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(255,168,58,.1);border:1px solid rgba(255,168,58,.28);color:var(--amber);margin-bottom:16px}
+.ico.t{background:rgba(47,224,196,.09);border-color:rgba(47,224,196,.28);color:var(--teal)}
+.st h3,.bento h3{font-size:21px;letter-spacing:-.02em;font-weight:700}
+.st p,.bento p{color:var(--muted);margin:8px 0 0;font-size:16px}
+
+/* bento */
+.bento{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:760px){.bento{grid-template-columns:repeat(6,1fr)}.b-a{grid-column:span 4}.b-b{grid-column:span 2}.b-c{grid-column:span 2}.b-d{grid-column:span 2}.b-e{grid-column:span 2}.b-f{grid-column:span 6}}
+.bc{padding:26px;border-radius:var(--r);background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.bc:hover{border-color:var(--line2);transform:translateY(-2px)}
+.bc.glow::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(255,168,58,.2),transparent 70%);pointer-events:none}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tags span{font:500 12.5px/1 var(--mono);padding:8px 11px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);background:rgba(255,255,255,.025)}
+.chain{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chain span{display:inline-flex;align-items:center;gap:7px;font:500 12.5px/1 var(--mono);padding:8px 11px;border-radius:8px;background:#0a0e15;border:1px solid var(--line);color:var(--text)}
+.chain span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+
+/* gallery */
+.gal{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 18px;margin:0 -20px;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.gal figure{margin:0;flex:0 0 88%;scroll-snap-align:center}
+@media(min-width:760px){.gal figure{flex-basis:46%}}
+.gal button{display:block;width:100%;padding:6px;border:0;border-radius:18px;cursor:zoom-in;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03))}
+.gal img{border-radius:12px;width:100%}
+.gal figcaption{color:var(--muted);font-size:14.5px;margin-top:12px;text-align:center}
+
+/* download */
+.dls{display:grid;gap:16px}
+@media(min-width:820px){.dls{grid-template-columns:1fr 1fr}}
+.dl{position:relative;padding:28px;border-radius:22px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);display:flex;flex-direction:column}
+.dl.rec{border-color:rgba(255,168,58,.55);box-shadow:0 0 0 1px rgba(255,168,58,.2),0 24px 60px -30px rgba(255,168,58,.5)}
+.dl .os{display:flex;align-items:center;gap:14px}
+.dl .os .ico{margin:0}
+.dl h3{font-size:24px;letter-spacing:-.02em}
+.dl .meta{color:var(--muted);font-size:14px;margin:2px 0 0}
+.dl p.d{color:var(--muted);margin:16px 0 20px;font-size:16px;flex:1}
+.badge{display:none;position:absolute;top:16px;right:16px;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:var(--amber);color:var(--ink)}
+.dl.rec .badge{display:block}
+details{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);padding:0 16px}
+details+details{margin-top:10px}
+summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:600;min-height:54px}
+summary::-webkit-details-marker{display:none}
+summary svg{transition:transform .2s;color:var(--muted)}
+details[open] summary svg{transform:rotate(180deg)}
+details>div,details>p{padding:0 0 16px;margin:0;color:var(--muted)}
+.dl details{margin-top:12px}
+.hash{display:flex;gap:10px;align-items:flex-start}
+.hash code{flex:1}
+code,.mono{font:500 13.5px/1.55 var(--mono);color:#d6e1f5;background:#080b11;border:1px solid var(--line);border-radius:8px;padding:2px 7px;word-break:break-all}
+.hash code{display:block;padding:9px 11px}
+.docs{display:grid;gap:12px;margin-top:16px}
+@media(min-width:640px){.docs{grid-template-columns:1fr 1fr}}
+.doc{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--text);text-decoration:none;min-height:68px}
+.doc:hover{border-color:var(--line2);background:rgba(255,255,255,.045)}
+.doc small{display:block;color:var(--muted);font-size:13px}
+.doc .ico{margin:0;width:42px;height:42px}
+
+/* install */
+.seg{display:inline-flex;padding:4px;border-radius:14px;background:var(--panel);border:1px solid var(--line);margin-bottom:22px}
+.seg button{border:0;background:none;color:var(--muted);font:700 15px/1 var(--body);padding:0 20px;min-height:46px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:9px}
+.seg button[aria-selected="true"]{background:linear-gradient(180deg,#ffd089,#ffa83a);color:var(--ink)}
+.panel[hidden]{display:none}
+.ol{list-style:none;margin:0;padding:0;counter-reset:o}
+.ol>li{counter-increment:o;position:relative;padding:0 0 26px 58px;min-height:44px}
+.ol>li::before{content:counter(o);position:absolute;left:0;top:0;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font:700 16px/1 var(--display);background:var(--panel2);border:1px solid var(--line2);color:var(--amber)}
+.ol>li::after{content:"";position:absolute;left:19px;top:46px;bottom:6px;width:2px;background:linear-gradient(var(--line2),transparent)}
+.ol>li:last-child{padding-bottom:0}
+.ol>li:last-child::after{display:none}
+.ol b{font-weight:700}
+.ol p{margin:0;color:var(--muted)}
+.ol p b{color:var(--text)}
+.cmd{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 12px 12px 14px;border-radius:12px;background:#080b11;border:1px solid var(--line)}
+.cmd code{flex:1;border:0;background:none;padding:0;font-size:12.5px;white-space:pre-wrap;word-break:break-all;color:#c9d6ee}
+.copy{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--text);font:600 13px/1 var(--body);cursor:pointer}
+.copy:hover{background:rgba(255,255,255,.09)}
+.copy.ok{border-color:var(--teal);color:var(--teal)}
+.tip{display:flex;gap:12px;margin-top:26px;padding:16px 18px;border-radius:14px;background:rgba(47,224,196,.06);border:1px solid rgba(47,224,196,.22);color:var(--muted)}
+.tip svg{color:var(--teal);margin-top:3px}
+.tip b{color:var(--text)}
+
+/* pricing */
+.plans{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:820px){.plans{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.plan{padding:22px 20px;border-radius:20px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);display:flex;flex-direction:column;gap:6px;position:relative;transition:transform .2s,border-color .2s}
+.plan:hover{transform:translateY(-3px);border-color:var(--line2)}
+.plan .dur{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:600;font-size:15px}
+.plan .amt{font:800 clamp(30px,6.4vw,44px)/1.05 var(--display);letter-spacing:-.04em;margin:10px 0 14px}
+.plan .btn{margin-top:auto;width:100%;white-space:nowrap}
+.plan.life{grid-column:1/-1;background:radial-gradient(80% 140% at 100% 0%,rgba(255,168,58,.2),transparent 60%),linear-gradient(180deg,var(--panel2),var(--panel));border-color:rgba(255,168,58,.5);box-shadow:0 24px 70px -34px rgba(255,168,58,.6)}
+.plan.life .amt{background:linear-gradient(100deg,#ffd089,#ffa83a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.plan .tag{align-self:flex-start;margin-bottom:6px;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:var(--amber);color:var(--ink)}
+@media(min-width:820px){.plan .tag{position:absolute;top:16px;right:16px;margin:0}.plan.life{display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 30px}.plan.life .btn{width:auto;min-width:220px;margin:0}}
+.fine{color:var(--dim);font-size:14px;margin:16px 4px 0}
+.keysteps{display:grid;gap:14px;margin-top:38px}
+@media(min-width:820px){.keysteps{grid-template-columns:repeat(4,1fr)}}
+.ks{padding:22px;border-radius:var(--r);border:1px dashed var(--line2);background:rgba(255,255,255,.015)}
+.ks .n{font:500 12.5px/1 var(--mono);color:var(--amber);letter-spacing:.1em}
+.ks h3{font-size:18px;margin-top:10px;letter-spacing:-.01em}
+.ks p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.contact{margin-top:20px;display:flex;flex-direction:column;gap:12px;align-items:stretch;padding:22px;border-radius:var(--r);background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line)}
+@media(min-width:760px){.contact{flex-direction:row;align-items:center;justify-content:space-between}}
+.contact b{font-size:18px}
+.contact p{margin:4px 0 0;color:var(--muted);font-size:15px}
+
+.faq details{background:var(--panel);}
+.faq details[open]{border-color:var(--line2)}
+
+footer{border-top:1px solid var(--line);padding:40px 0 calc(40px + env(safe-area-inset-bottom));color:var(--muted);font-size:14.5px}
+footer .row{display:flex;flex-direction:column;gap:14px}
+@media(min-width:760px){footer .row{flex-direction:row;justify-content:space-between;align-items:center}}
+footer a{color:var(--text)}
+
+/* mobile sticky bar */
+.dock{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;display:flex;gap:10px;padding:10px;border-radius:18px;background:rgba(12,16,24,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line2);box-shadow:0 20px 50px -10px rgba(0,0,0,.8);transform:translateY(140%);transition:transform .35s cubic-bezier(.2,.9,.3,1)}
+.dock.show{transform:none}
+.dock .btn{flex:1;min-height:48px;padding:0 12px;font-size:15px}
+@media(min-width:820px){.dock{display:none}}
+@media(max-width:819px){body{padding-bottom:84px}}
+
+/* lightbox */
+dialog{border:0;padding:0;background:transparent;max-width:100vw;max-height:100vh;width:100%;height:100%;margin:0}
+dialog::backdrop{background:rgba(3,5,8,.92);backdrop-filter:blur(6px)}
+.lb{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:56px 12px 24px;cursor:zoom-out}
+.lb img{max-width:100%;max-height:100%;width:auto;height:auto;border-radius:12px;object-fit:contain}
+.lbx{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center;cursor:pointer}
+
+/* reveal */
+html.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:var(--dl,0s)}
+html.js .rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  html.js .rv{opacity:1;transform:none;transition:none}
+  .meter i{animation:none;transform:scaleY(.55)}
+  .frame{transform:none!important}
+  *{transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#top"><span class="logo">JM</span><span>JM Vocal Channel</span></a>
-    <nav>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9m-3.5 3.5l3 3m-6-0.5l2 2"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 10v4M7 6v12M11 9v6M15 4v16M19 8v8"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h8M18 6h2M4 12h2M12 12h8M4 18h10M20 18h0"/><circle cx="15" cy="6" r="2.2"/><circle cx="9" cy="12" r="2.2"/><circle cx="17" cy="18" r="2.2"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.8"/><path d="M2 20h20"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+    <symbol id="i-inf" viewBox="0 0 24 24"><path d="M12 12c-2-3-3.5-4-5.5-4a4 4 0 000 8c2 0 3.5-1 5.5-4s3.5-4 5.5-4a4 4 0 010 8c-2 0-3.5-1-5.5-4z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 10l3 2-3 2M12 15h5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h0"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3m0 0L8 7m4-4l4 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="bar">
+    <a class="brand" href="#top" aria-label="JM Vocal Channel"><span class="logo">JM</span><span>Vocal Channel</span></a>
+    <nav class="links" aria-label="Sections">
       <a href="#features"><span class="en">Features</span><span class="bn">ফিচার</span></a>
       <a href="#download"><span class="en">Download</span><span class="bn">ডাউনলোড</span></a>
       <a href="#install"><span class="en">Install</span><span class="bn">ইনস্টল</span></a>
-      <a href="#licence"><span class="en">Licence &amp; prices</span><span class="bn">লাইসেন্স ও দাম</span></a>
+      <a href="#licence"><span class="en">Pricing</span><span class="bn">দাম</span></a>
+      <a href="#faq"><span class="en">FAQ</span><span class="bn">প্রশ্ন</span></a>
+    </nav>
+    <div class="navr">
       <span class="lang" role="group" aria-label="Language">
         <button type="button" data-set="en" aria-pressed="true">EN</button>
         <button type="button" data-set="bn" aria-pressed="false">বাংলা</button>
       </span>
-    </nav>
+    </div>
   </div>
 </header>
 
 <main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <div class="pill rv"><b>v1.0</b><span>macOS · Windows · AU · VST3</span></div>
+    <h1 class="big rv" style="--dl:.05s">
+      <span class="en">One plug-in for the <em>whole vocal</em> mix.</span>
+      <span class="bn">পুরো ভোকাল মিক্সের জন্য <em>একটাই</em> প্লাগ-ইন।</span>
+    </h1>
+    <p class="lead rv en" style="--dl:.12s">EQ, de-esser, three compressor stages, saturation and colour in one window. Press <b>LEARN</b>, play the vocal, pick the kind of vocal it is, and you are done.</p>
+    <p class="lead rv bn" style="--dl:.12s">EQ, de-esser, তিনটি compressor stage, saturation আর colour: সব এক উইন্ডোতে। <b>LEARN</b> চাপুন, ভোকাল বাজান, কোন ধরনের ভোকাল বেছে নিন, ব্যস।</p>
+
+    <div class="cta rv" style="--dl:.18s">
+      <a id="heroDl" class="btn btn-p" href="#download"><svg class="i"><use href="#i-download"/></svg><span id="heroDlText"><span class="en">Download</span><span class="bn">ডাউনলোড</span></span></a>
+      <a class="btn btn-g" href="#licence"><svg class="i"><use href="#i-key"/></svg><span class="en">Get a licence key · from ₹500</span><span class="bn">লাইসেন্স কী নিন · ₹৫০০ থেকে</span></a>
+    </div>
+
+    <ul class="chips rv" style="--dl:.24s">
+      <li><svg class="i"><use href="#i-zap"/></svg><span class="en">Zero latency</span><span class="bn">শূন্য latency</span></li>
+      <li><svg class="i"><use href="#i-lock"/></svg><span class="en">Offline licence check</span><span class="bn">অফলাইনে লাইসেন্স যাচাই</span></li>
+      <li><svg class="i"><use href="#i-shield"/></svg><span class="en">No hardware-match claims</span><span class="bn">hardware-মিলের কোনো দাবি নেই</span></li>
+    </ul>
+
+    <div class="note-m en"><b>On a phone?</b> Plug-ins install on a Mac or Windows computer. Save this page and open it there to download.<br><button class="btn btn-g btn-sm" type="button" id="shareBtn"><svg class="i"><use href="#i-share"/></svg>Share or copy this page link</button></div>
+    <div class="note-m bn"><b>ফোনে আছেন?</b> Plug-in Mac বা Windows কম্পিউটারে ইনস্টল হয়। এই পেজের লিঙ্ক সেভ করে সেখানে খুলে ডাউনলোড করুন।<br><button class="btn btn-g btn-sm" type="button" id="shareBtn2"><svg class="i"><use href="#i-share"/></svg>পেজের লিঙ্ক শেয়ার বা কপি করুন</button></div>
+
+    <div class="stage rv" style="--dl:.3s">
+      <button class="frame" type="button" data-zoom="img/editor_main.png" aria-label="Open the main window screenshot full size">
+        <img src="img/editor_main.png" alt="JM Vocal Channel main window: vocal style list, COLOUR, STRENGTH and FEEL, MAX COMPRESSION, SPEED, AMOUNT and DE-ESS knobs, and the eight-stage signal chain" width="1500" height="696" fetchpriority="high">
+      </button>
+      <div class="meter" id="meter" aria-hidden="true"></div>
+      <span class="tap en">Tap the picture to see it full size</span>
+      <span class="tap bn">ছবিতে ট্যাপ করলে বড় দেখা যাবে</span>
+    </div>
+  </div>
+</section>
+
 <div class="wrap">
-
-<div class="hero">
-  <div class="eyebrow">JM Records</div>
-  <h1><span class="en">One plug-in for the whole vocal mix.</span><span class="bn">পুরো ভোকাল মিক্সের জন্য একটাই প্লাগ-ইন।</span></h1>
-  <p class="lead en">EQ, de-esser, three compressor stages, saturation and colour in one window. Press <b>LEARN</b>, play the vocal, pick the kind of vocal it is — and you are done. Zero latency.</p>
-  <p class="lead bn">EQ, de-esser, তিনটি compressor stage, saturation আর colour — সব এক উইন্ডোতে। <b>LEARN</b> চাপুন, ভোকাল বাজান, কোন ধরনের ভোকাল বেছে নিন — ব্যস। Latency শূন্য।</p>
-  <div class="cta">
-    <a class="btn primary" href="#download"><span class="en">Download</span><span class="bn">ডাউনলোড</span><small><span class="en">macOS (AU, VST3) · Windows (VST3)</span><span class="bn">macOS (AU, VST3) · Windows (VST3)</span></small></a>
-    <a class="btn ghost" href="#licence"><span class="en">Licence key &amp; prices</span><span class="bn">লাইসেন্স কী ও দাম</span><small><span class="en">from ₹500 · sent by e-mail</span><span class="bn">₹৫০০ থেকে · ই-মেইলে পাঠানো হয়</span></small></a>
+  <div class="stats rv">
+    <div class="stat"><b>12.47M</b><span class="en">vocal starting points</span><span class="bn">ভোকাল শুরুর বিন্দু</span></div>
+    <div class="stat"><b>8</b><span class="en">stages in one chain</span><span class="bn">এক chain-এ stage</span></div>
+    <div class="stat"><b>0</b><span class="en">samples of latency</span><span class="bn">sample latency</span></div>
+    <div class="stat"><b>8–15s</b><span class="en">for LEARN to listen</span><span class="bn">LEARN শুনতে সময়</span></div>
   </div>
-  <p class="fine en">The plug-in needs a licence key to process audio. Without one it passes your audio through unchanged.</p>
-  <p class="fine bn">অডিও প্রসেস করতে plug-in-এর লাইসেন্স কী লাগে। কী না থাকলে আপনার অডিও অপরিবর্তিত পাস হয়ে যায়।</p>
 </div>
 
-<img class="shot" src="img/editor_main.png" alt="JM Vocal Channel main window: vocal style list, COLOUR / STRENGTH / FEEL, MAX COMPRESSION, SPEED, AMOUNT and DE-ESS knobs, and the signal chain on the right" width="1500" height="697">
-<p class="cap en">The main window: pick a sound on the left, shape it in the middle, watch the eight stages on the right.</p>
-<p class="cap bn">মূল উইন্ডো: বাঁদিকে sound বাছুন, মাঝখানে আকার দিন, ডানদিকে আটটি stage দেখুন।</p>
-</div>
-
-<section id="features"><div class="wrap">
-  <h2><span class="en">What it does</span><span class="bn">এটা কী করে</span></h2>
-  <p class="sub en">One plug-in handles the tonal and dynamic side of a vocal. Reverb and delay are left out on purpose: put them on a bus, as usual.</p>
-  <p class="sub bn">একটা plug-in ভোকালের tone আর dynamics-এর কাজ সামলায়। Reverb আর delay ইচ্ছে করেই ভেতরে নেই: আগের মতো bus-এ দিন।</p>
-  <div class="grid g3">
-    <div class="card"><h3>LEARN</h3>
-      <p class="en">Listens to your real voice for 8–15 seconds: how loud, how wide the dynamics, how dark or bright, how much rumble and how sharp the S sounds are. It never changes the sound while it listens.</p>
-      <p class="bn">আপনার আসল কণ্ঠ ৮–১৫ সেকেন্ড শোনে: কত জোরে, dynamics কত চওড়া, কত অন্ধকার বা উজ্জ্বল, কত rumble, S কত তীক্ষ্ণ। শোনার সময় sound বদলায় না।</p></div>
-    <div class="card"><h3><span class="en">12.47 million vocal types</span><span class="bn">১ কোটি ২৪ লক্ষ+ vocal type</span></h3>
-      <p class="en">Eight choices (Style, Voice, Range, Source, Role, Era, Intensity, Feel) give 12,474,000 starting points — Indian, Bengali, Pop, Rock, Urban, World, Speech and more. They are generated from rules: good starting points, your ears decide.</p>
-      <p class="bn">আটটি পছন্দ (Style, Voice, Range, Source, Role, Era, Intensity, Feel) মিলিয়ে ১,২৪,৭৪,০০০ শুরুর বিন্দু — Indian, Bengali, Pop, Rock, Urban, World, Speech ও আরও। এগুলো নিয়ম থেকে তৈরি: ভালো শুরুর বিন্দু, শেষ সিদ্ধান্ত আপনার কানের।</p></div>
-    <div class="card"><h3><span class="en">Eight-stage chain</span><span class="bn">আট stage-এর chain</span></h3>
-      <p class="en">EQ, de-esser, leveler, FET-style compressor, opto-style compressor, a catch compressor, saturation and a colour stage. Click a stage to switch it off and hear the difference.</p>
-      <p class="bn">EQ, de-esser, leveler, FET-ধরনের compressor, opto-ধরনের compressor, একটি catch compressor, saturation ও colour stage। কোনো stage-এ ক্লিক করে বন্ধ করে পার্থক্য শুনুন।</p></div>
-    <div class="card"><h3><span class="en">Zero latency</span><span class="bn">শূন্য latency</span></h3>
-      <p class="en">The signal path is analog-modelled: no look-ahead and no FFT in the audio path. It can be used on a live input and needs no delay compensation.</p>
-      <p class="bn">Signal path analog-modelled: look-ahead নেই, audio path-এ FFT নেই। Live input-এও চলে, delay compensation লাগে না।</p></div>
-    <div class="card"><h3><span class="en">Simple first, Advanced when you want</span><span class="bn">আগে সহজ, দরকারে Advanced</span></h3>
-      <p class="en">Main screen: COLOUR, STRENGTH, FEEL, MAX COMPRESSION, LOW, HIGH, SPEED, AMOUNT, DE-ESS, MIX and OUTPUT. ADVANCED shows the EQ, high-pass, saturation and input values the sound has set, so you can nudge them.</p>
-      <p class="bn">মূল স্ক্রিন: COLOUR, STRENGTH, FEEL, MAX COMPRESSION, LOW, HIGH, SPEED, AMOUNT, DE-ESS, MIX ও OUTPUT। ADVANCED-এ sound যা বসিয়েছে সেই EQ, high-pass, saturation ও input মান দেখা যায়, আর একটু নাড়ানো যায়।</p></div>
-    <div class="card"><h3><span class="en">Honest by design</span><span class="bn">সৎভাবে তৈরি</span></h3>
-      <p class="en">No claim is made that it matches any hardware unit. The numbers are starting points measured on nine real dry vocals. Full manual in English and Bengali below.</p>
-      <p class="bn">কোনো hardware-এর সঙ্গে মিল থাকার দাবি করা হয় না। সংখ্যাগুলো নয়টি আসল dry vocal মেপে নেওয়া শুরুর মান। ইংরেজি ও বাংলায় পূর্ণ manual নিচে আছে।</p></div>
-  </div>
-  <div class="grid g2" style="margin-top:22px">
-    <figure style="margin:0"><img class="shot" src="img/editor_setup.png" alt="Setup screen: choose Voice, Range, Source and Role, then press LEARN" loading="lazy" width="1500" height="696"><p class="cap en">Setup screen: say what kind of vocal it is, then press LEARN.</p><p class="cap bn">Setup স্ক্রিন: কোন ধরনের ভোকাল বলুন, তারপর LEARN চাপুন।</p></figure>
-    <figure style="margin:0"><img class="shot" src="img/editor_adv.png" alt="ADVANCED panel open under the main window" loading="lazy" width="1500" height="1039"><p class="cap en">ADVANCED panel: the EQ, high-pass, saturation and input values.</p><p class="cap bn">ADVANCED panel: EQ, high-pass, saturation ও input মান।</p></figure>
-  </div>
-</div></section>
-
-<section id="download"><div class="wrap">
-  <h2><span class="en">Download</span><span class="bn">ডাউনলোড</span></h2>
-  <p class="sub en">Version 1.0. Free to download; a licence key is needed to use it (see below).</p>
-  <p class="sub bn">সংস্করণ ১.০। ডাউনলোড বিনামূল্যে; ব্যবহার করতে লাইসেন্স কী লাগে (নিচে দেখুন)।</p>
-  <div class="grid g2 dl">
-    <div class="card">
-      <span class="tag">macOS</span>
-      <h3>JM Vocal Channel for macOS</h3>
-      <p class="en">Audio Unit (AU), VST3 and Standalone app. For <b>Apple Silicon Macs</b> (M1 or newer). Not built for Intel Macs.</p>
-      <p class="bn">Audio Unit (AU), VST3 ও Standalone app। <b>Apple Silicon Mac</b> (M1 বা নতুন)-এর জন্য। Intel Mac-এর জন্য তৈরি নয়।</p>
-      <a class="btn primary" href="https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-macOS.zip"><span class="en">Download for macOS</span><span class="bn">macOS-এর জন্য ডাউনলোড</span><small>JM-Vocal-Channel-macOS.zip · 4.8 MB</small></a>
-      <div class="hash">SHA-256<br>04bd296363fcd28fbcf0d981c3633d21d97b6c8d70481525a13eb19bf2054d91</div>
-    </div>
-    <div class="card">
-      <span class="tag">Windows</span>
-      <h3>JM Vocal Channel for Windows</h3>
-      <p class="en">VST3, 64-bit. Needs a 64-bit DAW. This is the first Windows release: if anything misbehaves in your DAW, please write to us.</p>
-      <p class="bn">VST3, 64-bit। 64-bit DAW লাগবে। এটা প্রথম Windows রিলিজ: আপনার DAW-তে কিছু গোলমাল হলে অনুগ্রহ করে আমাদের লিখুন।</p>
-      <a class="btn primary" href="https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-Windows-VST3.zip"><span class="en">Download for Windows</span><span class="bn">Windows-এর জন্য ডাউনলোড</span><small>JM-Vocal-Channel-Windows-VST3.zip · 1.6 MB</small></a>
-      <div class="hash">SHA-256<br>504cc446ab4ed6c9ea2bf5ac0229f5907b0d49e9f5dd719cf2841503f5067733</div>
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-h rv"><span class="eyebrow"><span class="en">How it works</span><span class="bn">কীভাবে কাজ করে</span></span>
+      <h2><span class="en">Three steps. No knob-hunting.</span><span class="bn">তিন ধাপ। knob খুঁজে বেড়ানো নেই।</span></h2></div>
+    <div class="steps3">
+      <article class="st rv"><div class="ico"><svg class="i"><use href="#i-mic"/></svg></div>
+        <h3><span class="en">Say what the vocal is</span><span class="bn">ভোকাল কেমন বলুন</span></h3>
+        <p class="en">Voice, range, source (which mic or room) and role. Four quick choices on the setup screen.</p>
+        <p class="bn">Voice, range, source (কোন mic বা ঘর) আর role। Setup স্ক্রিনে চারটি দ্রুত পছন্দ।</p></article>
+      <article class="st rv" style="--dl:.08s"><div class="ico t"><svg class="i"><use href="#i-wave"/></svg></div>
+        <h3><span class="en">Press LEARN</span><span class="bn">LEARN চাপুন</span></h3>
+        <p class="en">Play the recorded vocal. It listens to your real voice and measures loudness, dynamics, tone, rumble and S sounds. It never changes the sound while it listens.</p>
+        <p class="bn">রেকর্ড করা ভোকাল বাজান। এটা আপনার আসল কণ্ঠ শুনে জোর, dynamics, tone, rumble আর S মাপে। শোনার সময় sound বদলায় না।</p></article>
+      <article class="st rv" style="--dl:.16s"><div class="ico"><svg class="i"><use href="#i-sparkle"/></svg></div>
+        <h3><span class="en">Pick a sound</span><span class="bn">sound বাছুন</span></h3>
+        <p class="en">One click solves every stage for your voice. Fine-tune with COLOUR, STRENGTH, FEEL, MAX COMPRESSION, LOW and HIGH.</p>
+        <p class="bn">এক ক্লিকে আপনার কণ্ঠের জন্য প্রতিটি stage ঠিক হয়ে যায়। COLOUR, STRENGTH, FEEL, MAX COMPRESSION, LOW ও HIGH দিয়ে সূক্ষ্ম সুর বাঁধুন।</p></article>
     </div>
   </div>
-  <div class="grid g2" style="margin-top:16px">
-    <div class="card"><h3><span class="en">Manual (English)</span><span class="bn">Manual (ইংরেজি)</span></h3><p class="en">Full user manual, PDF.</p><p class="bn">পূর্ণ ব্যবহার নির্দেশিকা, PDF।</p><p><a href="manual/Vocal_Channel_Manual_EN.pdf">Vocal_Channel_Manual_EN.pdf</a></p></div>
-    <div class="card"><h3><span class="en">Manual (Bengali)</span><span class="bn">Manual (বাংলা)</span></h3><p class="en">Full user manual in Bengali, PDF.</p><p class="bn">বাংলায় পূর্ণ ব্যবহার নির্দেশিকা, PDF।</p><p><a href="manual/Vocal_Channel_Manual_BN.pdf">Vocal_Channel_Manual_BN.pdf</a></p></div>
-  </div>
-</div></section>
+</section>
 
-<section id="install"><div class="wrap">
-  <h2><span class="en">Install</span><span class="bn">ইনস্টল</span></h2>
-  <div class="grid g2">
-    <div class="card">
-      <span class="tag">macOS</span>
-      <h3><span class="en">Install on macOS</span><span class="bn">macOS-এ ইনস্টল</span></h3>
-      <ol class="steps en">
-        <li>Download and unzip <code>JM-Vocal-Channel-macOS.zip</code>. You get the AU, the VST3 and the Standalone app.</li>
-        <li>Copy <code>JM Vocal Channel.component</code> to <code>~/Library/Audio/Plug-Ins/Components/</code> (for Logic Pro, GarageBand and other AU hosts).</li>
-        <li>Copy <code>JM Vocal Channel.vst3</code> to <code>~/Library/Audio/Plug-Ins/VST3/</code> (for DAWs that use VST3).</li>
-        <li>The build is not notarized by Apple, so macOS may say the plug-in is damaged or from an unidentified developer. Run this once in Terminal and press Return:
-<pre>xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/"JM Vocal Channel.component" ~/Library/Audio/Plug-Ins/VST3/"JM Vocal Channel.vst3"</pre>
-        For the Standalone app, open it with a right-click → Open the first time.</li>
-        <li>Open your DAW and rescan plug-ins. If it is not listed, quit the DAW, run <code>killall -9 AudioComponentRegistrar</code> in Terminal, and rescan.</li>
-      </ol>
-      <ol class="steps bn">
-        <li><code>JM-Vocal-Channel-macOS.zip</code> ডাউনলোড করে unzip করুন। AU, VST3 ও Standalone app পাবেন।</li>
-        <li><code>JM Vocal Channel.component</code> কপি করুন <code>~/Library/Audio/Plug-Ins/Components/</code>-এ (Logic Pro, GarageBand ও অন্য AU host-এর জন্য)।</li>
-        <li><code>JM Vocal Channel.vst3</code> কপি করুন <code>~/Library/Audio/Plug-Ins/VST3/</code>-এ (যে DAW VST3 ব্যবহার করে তার জন্য)।</li>
-        <li>Build-টি Apple-এর notarize করা নয়, তাই macOS বলতে পারে plug-in নষ্ট বা অচেনা developer-এর। Terminal-এ একবার এটা চালিয়ে Return চাপুন:
-<pre>xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/"JM Vocal Channel.component" ~/Library/Audio/Plug-Ins/VST3/"JM Vocal Channel.vst3"</pre>
-        Standalone app প্রথমবার right-click → Open দিয়ে খুলুন।</li>
-        <li>DAW খুলে plug-in আবার scan করুন। তালিকায় না এলে DAW বন্ধ করে Terminal-এ <code>killall -9 AudioComponentRegistrar</code> চালান, তারপর scan করুন।</li>
-      </ol>
-    </div>
-    <div class="card">
-      <span class="tag">Windows</span>
-      <h3><span class="en">Install on Windows</span><span class="bn">Windows-এ ইনস্টল</span></h3>
-      <ol class="steps en">
-        <li>Download <code>JM-Vocal-Channel-Windows-VST3.zip</code>, right-click it and choose <b>Extract All</b>.</li>
-        <li>Open the extracted folder. Inside is a folder named <code>JM Vocal Channel.vst3</code> — it is a <b>folder</b>, and it must stay whole.</li>
-        <li>Copy that whole folder to <code>C:\Program Files\Common Files\VST3\</code>. Windows asks for administrator permission: choose <b>Continue</b>.</li>
-        <li>Open your DAW and rescan plug-ins (many DAWs do it at start-up). Insert <b>JM Vocal Channel</b> on a vocal track.</li>
-        <li>Windows SmartScreen or an antivirus program may warn, because the file is not code-signed. If you trust it, choose <b>More info → Run anyway</b>, or allow the file.</li>
-        <li>If it does not load on a computer that never had other plug-ins, install the <i>Microsoft Visual C++ Redistributable (x64)</i> from Microsoft, then rescan.</li>
-      </ol>
-      <ol class="steps bn">
-        <li><code>JM-Vocal-Channel-Windows-VST3.zip</code> ডাউনলোড করে right-click করুন, <b>Extract All</b> বেছে নিন।</li>
-        <li>বের হওয়া folder খুলুন। ভেতরে <code>JM Vocal Channel.vst3</code> নামে একটি <b>folder</b> আছে — এটা folder-ই, আর পুরোটা অক্ষত থাকতে হবে।</li>
-        <li>ওই পুরো folder কপি করুন <code>C:\Program Files\Common Files\VST3\</code>-এ। Windows administrator অনুমতি চাইবে: <b>Continue</b> চাপুন।</li>
-        <li>DAW খুলে plug-in আবার scan করুন (অনেক DAW চালু হওয়ার সময় নিজেই করে)। ভোকাল track-এ <b>JM Vocal Channel</b> insert করুন।</li>
-        <li>ফাইল code-signed নয় বলে Windows SmartScreen বা antivirus সতর্কতা দিতে পারে। ভরসা থাকলে <b>More info → Run anyway</b> দিন বা ফাইলটি allow করুন।</li>
-        <li>যে কম্পিউটারে আগে কোনো plug-in ছিল না, সেখানে load না হলে Microsoft-এর <i>Visual C++ Redistributable (x64)</i> install করুন, তারপর scan করুন।</li>
-      </ol>
+<section class="sec" id="features" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-h rv"><span class="eyebrow"><span class="en">What is inside</span><span class="bn">ভেতরে কী আছে</span></span>
+      <h2><span class="en">The tonal and dynamic side of a vocal, in one window.</span><span class="bn">ভোকালের tone আর dynamics, এক উইন্ডোতে।</span></h2>
+      <p class="en">Reverb and delay are left out on purpose: put them on a bus, as usual.</p>
+      <p class="bn">Reverb আর delay ইচ্ছে করেই ভেতরে নেই: আগের মতো bus-এ দিন।</p></div>
+    <div class="bento">
+      <article class="bc glow b-a rv"><div class="ico t"><svg class="i"><use href="#i-layers"/></svg></div>
+        <h3><span class="en">12.47 million vocal types</span><span class="bn">১ কোটি ২৪ লক্ষ+ vocal type</span></h3>
+        <p class="en">Eight choices (Style, Voice, Range, Source, Role, Era, Intensity, Feel) give 12,474,000 starting points. They are generated from rules: good starting points, and your ears decide the final setting.</p>
+        <p class="bn">আটটি পছন্দ (Style, Voice, Range, Source, Role, Era, Intensity, Feel) মিলিয়ে ১,২৪,৭৪,০০০ শুরুর বিন্দু। এগুলো নিয়ম থেকে তৈরি: ভালো শুরুর বিন্দু, শেষ সিদ্ধান্ত আপনার কানের।</p>
+        <div class="tags"><span>Indian</span><span>Bengali</span><span>Pop</span><span>Rock</span><span>Urban</span><span>World</span><span>Speech</span><span>Folk</span><span>Vintage</span></div></article>
+      <article class="bc b-b rv" style="--dl:.06s"><div class="ico"><svg class="i"><use href="#i-zap"/></svg></div>
+        <h3><span class="en">Zero latency</span><span class="bn">শূন্য latency</span></h3>
+        <p class="en">Analog-modelled: no look-ahead, no FFT in the audio path. Fine on a live input, no delay compensation.</p>
+        <p class="bn">Analog-modelled: look-ahead নেই, audio path-এ FFT নেই। Live input-এ চলে, delay compensation লাগে না।</p></article>
+      <article class="bc b-c rv"><div class="ico"><svg class="i"><use href="#i-wave"/></svg></div>
+        <h3>LEARN</h3>
+        <p class="en">8–15 seconds of your real voice sets the input gain, de-ess centre, corrective EQ and a safe MAX COMPRESSION.</p>
+        <p class="bn">আপনার আসল কণ্ঠের ৮–১৫ সেকেন্ড input gain, de-ess centre, সংশোধনী EQ আর নিরাপদ MAX COMPRESSION ঠিক করে।</p></article>
+      <article class="bc b-d rv" style="--dl:.06s"><div class="ico t"><svg class="i"><use href="#i-sliders"/></svg></div>
+        <h3><span class="en">Simple, then Advanced</span><span class="bn">আগে সহজ, পরে Advanced</span></h3>
+        <p class="en">ADVANCED shows the EQ, high-pass, saturation and input values the sound has set, so you can nudge them.</p>
+        <p class="bn">ADVANCED-এ sound যা বসিয়েছে সেই EQ, high-pass, saturation ও input মান দেখা যায়, আর একটু নাড়ানো যায়।</p></article>
+      <article class="bc b-e rv" style="--dl:.12s"><div class="ico"><svg class="i"><use href="#i-shield"/></svg></div>
+        <h3><span class="en">Honest by design</span><span class="bn">সৎভাবে তৈরি</span></h3>
+        <p class="en">No claim that it matches any hardware unit. Starting points were measured on nine real dry vocals.</p>
+        <p class="bn">কোনো hardware-এর সঙ্গে মিলের দাবি নেই। শুরুর মান নয়টি আসল dry vocal মেপে নেওয়া।</p></article>
+      <article class="bc b-f rv"><h3><span class="en">The eight-stage chain</span><span class="bn">আট stage-এর chain</span></h3>
+        <p class="en">Click any card in the plug-in to switch that stage off and hear exactly what it does.</p>
+        <p class="bn">Plug-in-এ যেকোনো card-এ ক্লিক করলে সেই stage বন্ধ হয়, আর সে ঠিক কী করছে শোনা যায়।</p>
+        <div class="chain"><span>EQ</span><span>DE-ESS</span><span>LEVELER</span><span>FET-style</span><span>OPTO-style</span><span>VCA catch</span><span>SATURATION</span><span>COLOUR</span></div></article>
     </div>
   </div>
-  <div class="note en"><b>Using it.</b> Insert it first on a mono or stereo vocal track, before any reverb or delay. The setup screen opens first: choose the vocal, press LEARN while the vocal plays, then pick a sound. To enter your key, click the button at the bottom right (it says ENTER YOUR LICENCE KEY) and paste the key. You enter it only once per computer user.</div>
-  <div class="note bn"><b>ব্যবহার।</b> Mono বা stereo ভোকাল track-এ reverb/delay-র আগে সবার আগে insert করুন। প্রথমে setup স্ক্রিন খোলে: ভোকাল বেছে নিন, ভোকাল বাজার সময় LEARN চাপুন, তারপর sound বাছুন। কী বসাতে নিচে ডানদিকের বোতামে (ENTER YOUR LICENCE KEY লেখা) ক্লিক করে কী paste করুন। প্রতি কম্পিউটার-ইউজারে একবারই বসাতে হয়।</div>
-</div></section>
+</section>
 
-<section id="licence"><div class="wrap">
-  <h2><span class="en">Licence key &amp; prices</span><span class="bn">লাইসেন্স কী ও দাম</span></h2>
-  <p class="sub en">Choose how long you need the plug-in. Prices are in Indian rupees (₹). Keys are sent by e-mail by hand, so please allow some time for the reply.</p>
-  <p class="sub bn">কতদিনের জন্য plug-in লাগবে বেছে নিন। দাম ভারতীয় টাকায় (₹)। কী হাতে হাতে ই-মেইলে পাঠানো হয়, তাই উত্তরের জন্য একটু সময় দিন।</p>
-  <table>
-    <thead><tr><th><span class="en">Licence</span><span class="bn">লাইসেন্স</span></th><th><span class="en">Price</span><span class="bn">দাম</span></th></tr></thead>
-    <tbody>
-      <tr><td><span class="en">1 day</span><span class="bn">১ দিন</span></td><td class="price">₹500</td></tr>
-      <tr><td><span class="en">1 week</span><span class="bn">১ সপ্তাহ</span></td><td class="price">₹1,000</td></tr>
-      <tr><td><span class="en">1 month</span><span class="bn">১ মাস</span></td><td class="price">₹3,000</td></tr>
-      <tr><td><span class="en">6 months</span><span class="bn">৬ মাস</span></td><td class="price">₹15,000</td></tr>
-      <tr><td><span class="en">1 year</span><span class="bn">১ বছর</span></td><td class="price">₹25,000</td></tr>
-      <tr class="best"><td><span class="en"><b>Lifetime</b> (permanent key, never expires)</span><span class="bn"><b>আজীবন</b> (স্থায়ী কী, কখনও শেষ হয় না)</span></td><td class="price">₹50,000</td></tr>
-    </tbody>
-  </table>
-
-  <div class="card" style="margin-top:22px">
-    <h3><span class="en">How to get your key</span><span class="bn">কী কীভাবে পাবেন</span></h3>
-    <ol class="steps en">
-      <li>Write an e-mail to <a href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20key&amp;body=Name%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0ALicence%20(1%20day%20%2F%201%20week%20%2F%201%20month%20%2F%206%20months%20%2F%201%20year%20%2F%20Lifetime)%3A%0AWindows%20or%20macOS%3A%0A"><b>itsjmrecords@gmail.com</b></a> with your name, the licence you want, and the e-mail address the key should be made for.</li>
-      <li>We reply with the payment details.</li>
-      <li>After the payment is confirmed, we send your licence key by e-mail.</li>
-      <li>Open the plug-in, click the licence button at the bottom right and paste the key.</li>
-    </ol>
-    <ol class="steps bn">
-      <li><a href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20key&amp;body=Name%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0ALicence%20(1%20day%20%2F%201%20week%20%2F%201%20month%20%2F%206%20months%20%2F%201%20year%20%2F%20Lifetime)%3A%0AWindows%20or%20macOS%3A%0A"><b>itsjmrecords@gmail.com</b></a>-এ ই-মেইল লিখুন: আপনার নাম, কোন লাইসেন্স চান, আর যে ই-মেইল ঠিকানার জন্য কী বানাতে হবে।</li>
-      <li>আমরা পেমেন্টের তথ্য জানিয়ে উত্তর দেব।</li>
-      <li>পেমেন্ট নিশ্চিত হলে ই-মেইলে লাইসেন্স কী পাঠানো হবে।</li>
-      <li>Plug-in খুলে নিচে ডানদিকের লাইসেন্স বোতামে ক্লিক করে কী paste করুন।</li>
-    </ol>
+<section class="sec" style="padding-top:10px">
+  <div class="wrap">
+    <div class="sec-h rv"><span class="eyebrow"><span class="en">A closer look</span><span class="bn">আরও কাছ থেকে</span></span>
+      <h2><span class="en">Setup, main and Advanced.</span><span class="bn">Setup, main আর Advanced।</span></h2></div>
+    <div class="gal rv" tabindex="0" aria-label="Screenshots">
+      <figure><button type="button" data-zoom="img/editor_setup.png" aria-label="Open setup screen full size"><img src="img/editor_setup.png" alt="Setup screen: choose Voice, Range, Source and Role, then press LEARN" width="1500" height="696" loading="lazy"></button>
+        <figcaption><span class="en">Setup: say what the vocal is, then LEARN.</span><span class="bn">Setup: ভোকাল কেমন বলুন, তারপর LEARN।</span></figcaption></figure>
+      <figure><button type="button" data-zoom="img/editor_main.png" aria-label="Open main screen full size"><img src="img/editor_main.png" alt="Main window with style list, three steppers and signal chain" width="1500" height="696" loading="lazy"></button>
+        <figcaption><span class="en">Main: pick a sound, shape it, watch the chain.</span><span class="bn">Main: sound বাছুন, আকার দিন, chain দেখুন।</span></figcaption></figure>
+      <figure><button type="button" data-zoom="img/editor_adv.png" aria-label="Open Advanced panel full size"><img src="img/editor_adv.png" alt="ADVANCED panel open under the main window" width="1500" height="1039" loading="lazy"></button>
+        <figcaption><span class="en">Advanced: EQ, high-pass, saturation, input.</span><span class="bn">Advanced: EQ, high-pass, saturation, input।</span></figcaption></figure>
+    </div>
   </div>
-  <div class="note en"><b>Good to know.</b> A key is made for the e-mail address you give and is pasted into the plug-in once per computer user. A timed key starts on the day it is made. A lifetime key never expires. Your projects, presets and settings are kept when a key ends; when a new key is entered everything sounds exactly as before.</div>
-  <div class="note bn"><b>জেনে রাখুন।</b> কী আপনার দেওয়া ই-মেইল ঠিকানার জন্য তৈরি হয় এবং প্রতি কম্পিউটার-ইউজারে একবার plug-in-এ paste করতে হয়। সময়সীমার কী যেদিন তৈরি হয় সেদিন থেকে শুরু হয়। আজীবন কী কখনও শেষ হয় না। কী শেষ হলেও আপনার project, preset ও সেটিং থেকে যায়; নতুন কী বসালে সব আগের মতোই শোনায়।</div>
-</div></section>
+</section>
 
-<section id="faq"><div class="wrap">
-  <h2><span class="en">Questions</span><span class="bn">প্রশ্ন</span></h2>
-  <details><summary><span class="en">What happens without a valid key?</span><span class="bn">বৈধ কী না থাকলে কী হয়?</span></summary>
-    <p class="en">The plug-in does not change the sound at all: your audio passes through unprocessed. The button at the bottom right tells you what is wrong (no key, key ended, key not valid, or check the computer date).</p>
-    <p class="bn">Plug-in সাউন্ড একটুও বদলায় না: আপনার অডিও অপরিবর্তিত পাস হয়ে যায়। নিচে ডানদিকের বোতাম বলে দেয় কী সমস্যা (কী নেই, কী শেষ, কী অবৈধ, বা কম্পিউটারের তারিখ দেখুন)।</p></details>
-  <details><summary><span class="en">Does it work offline?</span><span class="bn">অফলাইনে চলে?</span></summary>
-    <p class="en">Yes. The key is checked inside the plug-in; no internet connection is needed. The plug-in notices if the computer clock is turned back.</p>
-    <p class="bn">হ্যাঁ। কী plug-in-এর ভেতরেই যাচাই হয়; ইন্টারনেট লাগে না। কম্পিউটারের ঘড়ি পেছনে ঘোরালে plug-in তা ধরে ফেলে।</p></details>
-  <details><summary><span class="en">Which DAWs and formats?</span><span class="bn">কোন DAW ও format?</span></summary>
-    <p class="en">macOS: Audio Unit, VST3 and Standalone, on Apple Silicon. Windows: 64-bit VST3. Mono and stereo tracks both work, and no delay compensation is needed (0 samples of latency).</p>
-    <p class="bn">macOS: Audio Unit, VST3 ও Standalone, Apple Silicon-এ। Windows: 64-bit VST3। Mono ও stereo দুই রকম track-ই চলে, delay compensation লাগে না (০ sample latency)।</p></details>
-  <details><summary><span class="en">Is it code-signed?</span><span class="bn">এটা কি code-signed?</span></summary>
-    <p class="en">Not yet. That is why macOS asks for the one-time Terminal step and Windows may show a SmartScreen warning. The SHA-256 values above let you check that your download is the file we published.</p>
-    <p class="bn">এখনও না। তাই macOS-এ একবার Terminal ধাপ লাগে আর Windows SmartScreen সতর্কতা দিতে পারে। উপরের SHA-256 মান দিয়ে মিলিয়ে দেখতে পারেন আপনার ডাউনলোড আমাদের প্রকাশ করা ফাইলই কি না।</p></details>
-  <details><summary><span class="en">Does it match a hardware unit?</span><span class="bn">এটা কি কোনো hardware-এর সঙ্গে মেলে?</span></summary>
-    <p class="en">No such claim is made. It is analog-modelled with starting points measured on real vocals; your ears decide the final setting.</p>
-    <p class="bn">এমন কোনো দাবি করা হয় না। এটা analog-modelled, শুরুর মানগুলো আসল ভোকাল মেপে নেওয়া; শেষ সিদ্ধান্ত আপনার কানের।</p></details>
-</div></section>
+<section class="sec" id="download" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-h rv"><span class="eyebrow"><span class="en">Download</span><span class="bn">ডাউনলোড</span></span>
+      <h2><span class="en">Free to download. A key unlocks it.</span><span class="bn">ডাউনলোড বিনামূল্যে। কী দিয়ে চালু হয়।</span></h2>
+      <p class="en">Version 1.0. Without a licence key the plug-in passes your audio through unchanged.</p>
+      <p class="bn">সংস্করণ ১.০। লাইসেন্স কী ছাড়া plug-in আপনার অডিও অপরিবর্তিত পাস করে দেয়।</p></div>
+    <div class="dls">
+      <article class="dl rv" id="dlMac"><span class="badge"><span class="en">Your computer</span><span class="bn">আপনার কম্পিউটার</span></span>
+        <div class="os"><div class="ico"><svg class="i"><use href="#i-laptop"/></svg></div><div><h3>macOS</h3><p class="meta">AU · VST3 · Standalone · 4.8 MB</p></div></div>
+        <p class="d en">For <b>Apple Silicon Macs</b> (M1 or newer). It is not built for Intel Macs.</p>
+        <p class="d bn"><b>Apple Silicon Mac</b> (M1 বা নতুন)-এর জন্য। Intel Mac-এর জন্য তৈরি নয়।</p>
+        <a class="btn btn-p" href="https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-macOS.zip"><svg class="i"><use href="#i-download"/></svg><span class="en">Download for macOS</span><span class="bn">macOS-এর জন্য ডাউনলোড</span></a>
+        <details><summary><span class="en">Verify the download (SHA-256)</span><span class="bn">ডাউনলোড যাচাই (SHA-256)</span><svg class="i"><use href="#i-chev"/></svg></summary>
+          <div class="hash"><code>04bd296363fcd28fbcf0d981c3633d21d97b6c8d70481525a13eb19bf2054d91</code><button class="copy" type="button" data-copy="04bd296363fcd28fbcf0d981c3633d21d97b6c8d70481525a13eb19bf2054d91"><svg class="i"><use href="#i-copy"/></svg><span class="en">Copy</span><span class="bn">কপি</span></button></div></details></article>
+      <article class="dl rv" id="dlWin" style="--dl:.08s"><span class="badge"><span class="en">Your computer</span><span class="bn">আপনার কম্পিউটার</span></span>
+        <div class="os"><div class="ico t"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3>Windows</h3><p class="meta">VST3 · 64-bit · 1.6 MB</p></div></div>
+        <p class="d en">Needs a 64-bit DAW. This is the first Windows release: if anything misbehaves in your DAW, please write to us.</p>
+        <p class="d bn">64-bit DAW লাগবে। এটা প্রথম Windows রিলিজ: আপনার DAW-তে কিছু গোলমাল হলে অনুগ্রহ করে আমাদের লিখুন।</p>
+        <a class="btn btn-p" href="https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-Windows-VST3.zip"><svg class="i"><use href="#i-download"/></svg><span class="en">Download for Windows</span><span class="bn">Windows-এর জন্য ডাউনলোড</span></a>
+        <details><summary><span class="en">Verify the download (SHA-256)</span><span class="bn">ডাউনলোড যাচাই (SHA-256)</span><svg class="i"><use href="#i-chev"/></svg></summary>
+          <div class="hash"><code>504cc446ab4ed6c9ea2bf5ac0229f5907b0d49e9f5dd719cf2841503f5067733</code><button class="copy" type="button" data-copy="504cc446ab4ed6c9ea2bf5ac0229f5907b0d49e9f5dd719cf2841503f5067733"><svg class="i"><use href="#i-copy"/></svg><span class="en">Copy</span><span class="bn">কপি</span></button></div></details></article>
+    </div>
+    <div class="docs">
+      <a class="doc rv" href="manual/Vocal_Channel_Manual_EN.pdf"><div class="ico"><svg class="i"><use href="#i-book"/></svg></div><div><b><span class="en">User manual, English</span><span class="bn">ব্যবহার নির্দেশিকা, ইংরেজি</span></b><small>PDF · 1.9 MB</small></div></a>
+      <a class="doc rv" style="--dl:.06s" href="manual/Vocal_Channel_Manual_BN.pdf"><div class="ico t"><svg class="i"><use href="#i-book"/></svg></div><div><b><span class="en">User manual, Bengali</span><span class="bn">ব্যবহার নির্দেশিকা, বাংলা</span></b><small>PDF · 2.0 MB</small></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="install" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-h rv"><span class="eyebrow"><span class="en">Install</span><span class="bn">ইনস্টল</span></span>
+      <h2><span class="en">Up and running in two minutes.</span><span class="bn">দুই মিনিটে চালু।</span></h2></div>
+    <div class="rv">
+      <div class="seg" role="tablist" aria-label="Operating system">
+        <button type="button" role="tab" id="tabMac" aria-selected="true" aria-controls="pMac"><svg class="i"><use href="#i-laptop"/></svg>macOS</button>
+        <button type="button" role="tab" id="tabWin" aria-selected="false" aria-controls="pWin"><svg class="i"><use href="#i-monitor"/></svg>Windows</button>
+      </div>
+
+      <div class="panel" id="pMac" role="tabpanel" aria-labelledby="tabMac">
+        <ol class="ol">
+          <li><b class="en">Unzip the download</b><b class="bn">ডাউনলোড unzip করুন</b>
+            <p class="en"><code>JM-Vocal-Channel-macOS.zip</code> contains the AU, the VST3 and the Standalone app.</p>
+            <p class="bn"><code>JM-Vocal-Channel-macOS.zip</code>-এ AU, VST3 ও Standalone app আছে।</p></li>
+          <li><b class="en">Copy the plug-ins</b><b class="bn">plug-in কপি করুন</b>
+            <p class="en"><code>JM Vocal Channel.component</code> goes to <code>~/Library/Audio/Plug-Ins/Components/</code> (Logic Pro, GarageBand and other AU hosts). <code>JM Vocal Channel.vst3</code> goes to <code>~/Library/Audio/Plug-Ins/VST3/</code>.</p>
+            <p class="bn"><code>JM Vocal Channel.component</code> যাবে <code>~/Library/Audio/Plug-Ins/Components/</code>-এ (Logic Pro, GarageBand ও অন্য AU host)। <code>JM Vocal Channel.vst3</code> যাবে <code>~/Library/Audio/Plug-Ins/VST3/</code>-এ।</p></li>
+          <li><b class="en">Allow it once in Terminal</b><b class="bn">Terminal-এ একবার অনুমতি দিন</b>
+            <p class="en">The build is not notarized by Apple, so macOS may say the plug-in is damaged or from an unidentified developer. Paste this once and press Return:</p>
+            <p class="bn">Build-টি Apple-এর notarize করা নয়, তাই macOS বলতে পারে plug-in নষ্ট বা অচেনা developer-এর। এটা একবার paste করে Return চাপুন:</p>
+            <div class="cmd"><code id="cmdMac">xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/"JM Vocal Channel.component" ~/Library/Audio/Plug-Ins/VST3/"JM Vocal Channel.vst3"</code>
+              <button class="copy" type="button" data-copy-id="cmdMac"><svg class="i"><use href="#i-copy"/></svg><span class="en">Copy</span><span class="bn">কপি</span></button></div>
+            <p class="en" style="margin-top:10px">For the Standalone app, right-click → Open the first time.</p>
+            <p class="bn" style="margin-top:10px">Standalone app প্রথমবার right-click → Open দিয়ে খুলুন।</p></li>
+          <li><b class="en">Rescan in your DAW</b><b class="bn">DAW-তে আবার scan করুন</b>
+            <p class="en">Not listed? Quit the DAW, run <code>killall -9 AudioComponentRegistrar</code> in Terminal, then rescan.</p>
+            <p class="bn">তালিকায় না এলে DAW বন্ধ করে Terminal-এ <code>killall -9 AudioComponentRegistrar</code> চালান, তারপর scan করুন।</p></li>
+        </ol>
+      </div>
+
+      <div class="panel" id="pWin" role="tabpanel" aria-labelledby="tabWin" hidden>
+        <ol class="ol">
+          <li><b class="en">Extract the download</b><b class="bn">ডাউনলোড extract করুন</b>
+            <p class="en">Right-click <code>JM-Vocal-Channel-Windows-VST3.zip</code> and choose <b>Extract All</b>.</p>
+            <p class="bn"><code>JM-Vocal-Channel-Windows-VST3.zip</code>-এ right-click করে <b>Extract All</b> বেছে নিন।</p></li>
+          <li><b class="en">Find the .vst3 folder</b><b class="bn">.vst3 folder খুঁজুন</b>
+            <p class="en">Inside is <code>JM Vocal Channel.vst3</code>. It is a <b>folder</b> and must stay whole: copy all of it, not a single file from inside.</p>
+            <p class="bn">ভেতরে <code>JM Vocal Channel.vst3</code> আছে। এটা একটা <b>folder</b> আর পুরোটা অক্ষত থাকতে হবে: ভেতরের একটা ফাইল নয়, পুরোটা কপি করুন।</p></li>
+          <li><b class="en">Copy it to the VST3 folder</b><b class="bn">VST3 folder-এ কপি করুন</b>
+            <p class="en">Paste it into the folder below. Windows asks for administrator permission: choose <b>Continue</b>.</p>
+            <p class="bn">নিচের folder-এ paste করুন। Windows administrator অনুমতি চাইবে: <b>Continue</b> চাপুন।</p>
+            <div class="cmd"><code id="cmdWin">C:\Program Files\Common Files\VST3\</code>
+              <button class="copy" type="button" data-copy-id="cmdWin"><svg class="i"><use href="#i-copy"/></svg><span class="en">Copy</span><span class="bn">কপি</span></button></div></li>
+          <li><b class="en">Rescan and insert</b><b class="bn">scan করে insert করুন</b>
+            <p class="en">Open your DAW, rescan plug-ins (many do it at start-up) and insert <b>JM Vocal Channel</b> on a vocal track.</p>
+            <p class="bn">DAW খুলে plug-in আবার scan করুন (অনেক DAW চালু হওয়ার সময় নিজেই করে) আর ভোকাল track-এ <b>JM Vocal Channel</b> insert করুন।</p></li>
+        </ol>
+        <div class="tip"><svg class="i"><use href="#i-info"/></svg><div>
+          <p class="en" style="margin:0"><b>SmartScreen or antivirus warning?</b> The file is not code-signed yet. If you trust it, choose <b>More info → Run anyway</b> or allow the file. If it does not load on a computer that never had other plug-ins, install the <i>Microsoft Visual C++ Redistributable (x64)</i> from Microsoft, then rescan.</p>
+          <p class="bn" style="margin:0"><b>SmartScreen বা antivirus সতর্কতা?</b> ফাইল এখনও code-signed নয়। ভরসা থাকলে <b>More info → Run anyway</b> দিন বা ফাইলটি allow করুন। যে কম্পিউটারে আগে কোনো plug-in ছিল না, সেখানে load না হলে Microsoft-এর <i>Visual C++ Redistributable (x64)</i> install করে আবার scan করুন।</p></div></div>
+      </div>
+
+      <div class="tip"><svg class="i"><use href="#i-key"/></svg><div>
+        <p class="en" style="margin:0"><b>Enter your key.</b> Insert the plug-in first on a mono or stereo vocal track, before any reverb or delay. Click the button at the bottom right (it says ENTER YOUR LICENCE KEY) and paste the key. You enter it once per computer user.</p>
+        <p class="bn" style="margin:0"><b>কী বসান।</b> Mono বা stereo ভোকাল track-এ reverb/delay-র আগে সবার আগে insert করুন। নিচে ডানদিকের বোতামে (ENTER YOUR LICENCE KEY লেখা) ক্লিক করে কী paste করুন। প্রতি কম্পিউটার-ইউজারে একবারই বসাতে হয়।</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="licence" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-h rv"><span class="eyebrow"><span class="en">Licence &amp; pricing</span><span class="bn">লাইসেন্স ও দাম</span></span>
+      <h2><span class="en">Pick how long you need it.</span><span class="bn">কতদিন লাগবে বেছে নিন।</span></h2>
+      <p class="en">Prices are in Indian rupees (₹). Keys are sent by e-mail by hand, so please allow some time for the reply.</p>
+      <p class="bn">দাম ভারতীয় টাকায় (₹)। কী হাতে হাতে ই-মেইলে পাঠানো হয়, তাই উত্তরের জন্য একটু সময় দিন।</p></div>
+
+    <div class="plans">
+      <article class="plan rv"><div class="dur"><svg class="i"><use href="#i-clock"/></svg><span class="en">1 day</span><span class="bn">১ দিন</span></div><div class="amt">₹500</div>
+        <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%201%20day&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%201%20day%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
+      <article class="plan rv" style="--dl:.05s"><div class="dur"><svg class="i"><use href="#i-cal"/></svg><span class="en">1 week</span><span class="bn">১ সপ্তাহ</span></div><div class="amt">₹1,000</div>
+        <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%201%20week&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%201%20week%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
+      <article class="plan rv" style="--dl:.1s"><div class="dur"><svg class="i"><use href="#i-cal"/></svg><span class="en">1 month</span><span class="bn">১ মাস</span></div><div class="amt">₹3,000</div>
+        <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%201%20month&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%201%20month%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
+      <article class="plan rv"><div class="dur"><svg class="i"><use href="#i-cal"/></svg><span class="en">6 months</span><span class="bn">৬ মাস</span></div><div class="amt">₹15,000</div>
+        <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%206%20months&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%206%20months%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
+      <article class="plan rv" style="--dl:.05s"><div class="dur"><svg class="i"><use href="#i-cal"/></svg><span class="en">1 year</span><span class="bn">১ বছর</span></div><div class="amt">₹25,000</div>
+        <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%201%20year&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%201%20year%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
+      <article class="plan life rv" style="--dl:.1s"><span class="tag"><span class="en">Never expires</span><span class="bn">কখনও শেষ হয় না</span></span>
+        <div><div class="dur"><svg class="i"><use href="#i-inf"/></svg><span class="en">Lifetime · permanent key</span><span class="bn">আজীবন · স্থায়ী কী</span></div><div class="amt">₹50,000</div></div>
+        <a class="btn btn-p" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%20Lifetime&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%20Lifetime%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Request lifetime key</span><span class="bn">আজীবন কী চাই</span></a></article>
+    </div>
+    <p class="fine en">A key is made for the e-mail address you give. A timed key starts on the day it is made. Your projects, presets and settings are kept when a key ends, and when a new key is entered everything sounds exactly as before.</p>
+    <p class="fine bn">কী আপনার দেওয়া ই-মেইল ঠিকানার জন্য তৈরি হয়। সময়সীমার কী যেদিন তৈরি হয় সেদিন থেকে শুরু হয়। কী শেষ হলেও আপনার project, preset ও সেটিং থেকে যায়, আর নতুন কী বসালে সব আগের মতোই শোনায়।</p>
+
+    <div class="keysteps">
+      <div class="ks rv"><span class="n">01</span><h3><span class="en">Write to us</span><span class="bn">আমাদের লিখুন</span></h3><p class="en">Tap a plan above, or e-mail your name, the plan, and the e-mail the key is for.</p><p class="bn">উপরে কোনো plan-এ ট্যাপ করুন, বা আপনার নাম, plan আর কীর ই-মেইল লিখে পাঠান।</p></div>
+      <div class="ks rv" style="--dl:.05s"><span class="n">02</span><h3><span class="en">We reply</span><span class="bn">আমরা উত্তর দিই</span></h3><p class="en">We send the payment details.</p><p class="bn">আমরা পেমেন্টের তথ্য পাঠাই।</p></div>
+      <div class="ks rv" style="--dl:.1s"><span class="n">03</span><h3><span class="en">Key by e-mail</span><span class="bn">ই-মেইলে কী</span></h3><p class="en">After the payment is confirmed, your licence key arrives by e-mail.</p><p class="bn">পেমেন্ট নিশ্চিত হলে লাইসেন্স কী ই-মেইলে আসে।</p></div>
+      <div class="ks rv" style="--dl:.15s"><span class="n">04</span><h3><span class="en">Paste and play</span><span class="bn">paste করে চালান</span></h3><p class="en">Click the licence button in the plug-in and paste the key.</p><p class="bn">Plug-in-এর লাইসেন্স বোতামে ক্লিক করে কী paste করুন।</p></div>
+    </div>
+    <div class="contact rv">
+      <div><b><span class="en">Questions or trouble installing?</span><span class="bn">প্রশ্ন বা ইনস্টলে সমস্যা?</span></b><p>itsjmrecords@gmail.com</p></div>
+      <a class="btn btn-p btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel"><svg class="i"><use href="#i-mail"/></svg><span class="en">E-mail JM Records</span><span class="bn">JM Records-কে লিখুন</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec faq" id="faq" style="padding-top:20px">
+  <div class="wrap" style="max-width:820px">
+    <div class="sec-h rv"><span class="eyebrow"><span class="en">Questions</span><span class="bn">প্রশ্ন</span></span>
+      <h2><span class="en">Good to know.</span><span class="bn">জেনে রাখুন।</span></h2></div>
+    <details class="rv"><summary><span class="en">What happens without a valid key?</span><span class="bn">বৈধ কী না থাকলে কী হয়?</span><svg class="i"><use href="#i-chev"/></svg></summary>
+      <p class="en">The plug-in does not change the sound at all: your audio passes through unprocessed. The button at the bottom right tells you what is wrong (no key, key ended, key not valid, or check the computer date).</p>
+      <p class="bn">Plug-in সাউন্ড একটুও বদলায় না: আপনার অডিও অপরিবর্তিত পাস হয়ে যায়। নিচে ডানদিকের বোতাম বলে দেয় কী সমস্যা (কী নেই, কী শেষ, কী অবৈধ, বা কম্পিউটারের তারিখ দেখুন)।</p></details>
+    <details class="rv"><summary><span class="en">Does it work offline?</span><span class="bn">অফলাইনে চলে?</span><svg class="i"><use href="#i-chev"/></svg></summary>
+      <p class="en">Yes. The key is checked inside the plug-in, so no internet connection is needed. The plug-in notices if the computer clock is turned back.</p>
+      <p class="bn">হ্যাঁ। কী plug-in-এর ভেতরেই যাচাই হয়, তাই ইন্টারনেট লাগে না। কম্পিউটারের ঘড়ি পেছনে ঘোরালে plug-in তা ধরে ফেলে।</p></details>
+    <details class="rv"><summary><span class="en">Which DAWs and formats?</span><span class="bn">কোন DAW ও format?</span><svg class="i"><use href="#i-chev"/></svg></summary>
+      <p class="en">macOS: Audio Unit, VST3 and Standalone, on Apple Silicon. Windows: 64-bit VST3. Mono and stereo tracks both work, and no delay compensation is needed (0 samples of latency).</p>
+      <p class="bn">macOS: Audio Unit, VST3 ও Standalone, Apple Silicon-এ। Windows: 64-bit VST3। Mono ও stereo দুই রকম track-ই চলে, delay compensation লাগে না (০ sample latency)।</p></details>
+    <details class="rv"><summary><span class="en">Is it code-signed?</span><span class="bn">এটা কি code-signed?</span><svg class="i"><use href="#i-chev"/></svg></summary>
+      <p class="en">Not yet. That is why macOS asks for the one-time Terminal step and Windows may show a SmartScreen warning. The SHA-256 values in the download section let you check that your download is the file we published.</p>
+      <p class="bn">এখনও না। তাই macOS-এ একবার Terminal ধাপ লাগে আর Windows SmartScreen সতর্কতা দিতে পারে। ডাউনলোড অংশের SHA-256 মান দিয়ে মিলিয়ে দেখতে পারেন আপনার ডাউনলোড আমাদের প্রকাশ করা ফাইলই কি না।</p></details>
+    <details class="rv"><summary><span class="en">Does it match a hardware unit?</span><span class="bn">এটা কি কোনো hardware-এর সঙ্গে মেলে?</span><svg class="i"><use href="#i-chev"/></svg></summary>
+      <p class="en">No such claim is made. It is analog-modelled, with starting points measured on real vocals. Your ears decide the final setting.</p>
+      <p class="bn">এমন কোনো দাবি করা হয় না। এটা analog-modelled, শুরুর মানগুলো আসল ভোকাল মেপে নেওয়া। শেষ সিদ্ধান্ত আপনার কানের।</p></details>
+  </div>
+</section>
 
 </main>
 
-<footer><div class="wrap">
-  <p>© JM Records · JM Vocal Channel 1.0 · <a href="mailto:itsjmrecords@gmail.com">itsjmrecords@gmail.com</a></p>
-  <p class="en">All product names mentioned belong to their owners. JM Records is not affiliated with any hardware maker.</p>
-  <p class="bn">উল্লেখ করা সব product-এর নাম তাদের মালিকদের। JM Records কোনো hardware প্রস্তুতকারকের সঙ্গে যুক্ত নয়।</p>
-</div></footer>
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="#top"><span class="logo">JM</span><span>JM Records</span></a>
+      <div>© JM Records · JM Vocal Channel 1.0 · <a href="mailto:itsjmrecords@gmail.com">itsjmrecords@gmail.com</a></div>
+    </div>
+    <p style="margin:18px 0 0;color:var(--dim);font-size:13.5px"><span class="en">All product names mentioned belong to their owners. JM Records is not affiliated with any hardware maker.</span><span class="bn">উল্লেখ করা সব product-এর নাম তাদের মালিকদের। JM Records কোনো hardware প্রস্তুতকারকের সঙ্গে যুক্ত নয়।</span></p>
+  </div>
+</footer>
+
+<div class="dock" id="dock" aria-label="Quick actions">
+  <a class="btn btn-p" href="#download"><svg class="i"><use href="#i-download"/></svg><span class="en">Download</span><span class="bn">ডাউনলোড</span></a>
+  <a class="btn btn-g" href="#licence"><svg class="i"><use href="#i-key"/></svg><span class="en">Get a key</span><span class="bn">কী নিন</span></a>
+</div>
+
+<dialog id="lb" aria-label="Screenshot"><button class="lbx" type="button" id="lbx" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button><div class="lb" id="lbc"><img id="lbi" alt=""></div></dialog>
 
 <script>
 (function () {
-  var root = document.documentElement, buttons = document.querySelectorAll('.lang button');
-  function set(l) {
+  var d = document, root = d.documentElement;
+  root.classList.add('js');
+
+  /* language: English is always the default; only an explicit choice made on this page is remembered */
+  var btns = d.querySelectorAll('.lang button');
+  function setLang(l, save) {
     root.setAttribute('data-lang', l); root.lang = l === 'bn' ? 'bn' : 'en';
-    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-set') === l ? 'true' : 'false'); });
-    try { localStorage.setItem('jmvc-lang', l); } catch (e) {}
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-set') === l ? 'true' : 'false'); });
+    if (save) { try { localStorage.setItem('jmvc-lang', l); } catch (e) {} }
   }
   var saved = null; try { saved = localStorage.getItem('jmvc-lang'); } catch (e) {}
-  set(saved || ((navigator.language || '').toLowerCase().indexOf('bn') === 0 ? 'bn' : 'en'));
-  buttons.forEach(function (b) { b.addEventListener('click', function () { set(b.getAttribute('data-set')); }); });
+  if (saved === 'bn') setLang('bn', false);
+  btns.forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-set'), true); }); });
+
+  /* device: pick the matching download and install tab */
+  var ua = navigator.userAgent || '', plat = navigator.platform || '';
+  var touch = /Android|iPhone|iPad|iPod/i.test(ua) || (/Mac/i.test(plat) && navigator.maxTouchPoints > 1);
+  var os = touch ? 'other' : /Win/i.test(plat + ua) ? 'win' : /Mac/i.test(plat + ua) ? 'mac' : 'other';
+  if (touch) root.classList.add('touch');
+  var tabMac = d.getElementById('tabMac'), tabWin = d.getElementById('tabWin'), pMac = d.getElementById('pMac'), pWin = d.getElementById('pWin');
+  function tab(w) {
+    var m = w === 'mac';
+    tabMac.setAttribute('aria-selected', m); tabWin.setAttribute('aria-selected', !m);
+    pMac.hidden = !m; pWin.hidden = m;
+  }
+  tabMac.addEventListener('click', function () { tab('mac'); });
+  tabWin.addEventListener('click', function () { tab('win'); });
+  if (os === 'win') {
+    tab('win'); d.getElementById('dlWin').classList.add('rec');
+    var h = d.getElementById('heroDl'); h.href = 'https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-Windows-VST3.zip';
+    d.getElementById('heroDlText').innerHTML = '<span class="en">Download for Windows</span><span class="bn">Windows-এর জন্য ডাউনলোড</span>';
+  } else if (os === 'mac') {
+    d.getElementById('dlMac').classList.add('rec');
+    var h2 = d.getElementById('heroDl'); h2.href = 'https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-macOS.zip';
+    d.getElementById('heroDlText').innerHTML = '<span class="en">Download for macOS</span><span class="bn">macOS-এর জন্য ডাউনলোড</span>';
+  }
+
+  /* copy buttons */
+  function copyText(t, btn) {
+    function done() { btn.classList.add('ok'); var old = btn.innerHTML; btn.innerHTML = '<svg class="i"><use href="#i-check"/></svg><span class="en">Copied</span><span class="bn">কপি হয়েছে</span>'; setTimeout(function () { btn.classList.remove('ok'); btn.innerHTML = old; }, 1600); }
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(done, fallback); } else fallback();
+    function fallback() { var a = d.createElement('textarea'); a.value = t; a.style.position = 'fixed'; a.style.opacity = '0'; d.body.appendChild(a); a.select(); try { d.execCommand('copy'); done(); } catch (e) {} d.body.removeChild(a); }
+  }
+  d.querySelectorAll('.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-copy') || (d.getElementById(b.getAttribute('data-copy-id')) || {}).textContent || '';
+      copyText(t.trim(), b);
+    });
+  });
+
+  /* share (phones) */
+  function share() {
+    var url = location.href.split('#')[0];
+    if (navigator.share) navigator.share({ title: 'JM Vocal Channel', url: url }).catch(function () {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(url);
+  }
+  ['shareBtn', 'shareBtn2'].forEach(function (id) { var b = d.getElementById(id); if (b) b.addEventListener('click', share); });
+
+  /* level meter (decorative) */
+  var m = d.getElementById('meter');
+  if (m) {
+    var n = 30, html = '';
+    for (var i = 0; i < n; i++) {
+      var r = Math.random(), c = 1 - Math.abs(i - n / 2) / (n / 2);
+      html += '<i style="--m:' + (0.35 + 0.6 * c * (0.6 + 0.4 * r)).toFixed(2) + ';--t:' + (0.9 + r * 1.3).toFixed(2) + 's;--d:-' + (r * 2).toFixed(2) + 's"></i>';
+    }
+    m.innerHTML = html;
+  }
+
+  /* reveal on scroll */
+  var rv = d.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    rv.forEach(function (e) { io.observe(e); });
+  } else rv.forEach(function (e) { e.classList.add('in'); });
+
+  /* mobile dock appears after the hero buttons scroll away */
+  var dock = d.getElementById('dock'), cta = d.querySelector('.hero .cta');
+  if (dock && cta && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { dock.classList.toggle('show', !es[0].isIntersecting && es[0].boundingClientRect.top < 0); }).observe(cta);
+  }
+
+  /* lightbox */
+  var lb = d.getElementById('lb'), lbi = d.getElementById('lbi');
+  d.querySelectorAll('[data-zoom]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      lbi.src = b.getAttribute('data-zoom'); var im = b.querySelector('img'); lbi.alt = im ? im.alt : '';
+      if (lb.showModal) lb.showModal(); else window.open(lbi.src, '_blank');
+    });
+  });
+  function closeLb() { if (lb.open) lb.close(); }
+  lb.addEventListener('click', closeLb); d.getElementById('lbx').addEventListener('click', closeLb);
 })();
 </script>
 </body>
