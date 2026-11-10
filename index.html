@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JM Vocal Channel — one plug-in for the whole vocal mix</title>
+<meta name="description" content="JM Vocal Channel by JM Records: EQ, de-esser, three compressors, saturation and colour in one vocal plug-in. Press LEARN, pick a vocal type, done. Zero latency. macOS (AU, VST3) and Windows (VST3).">
+<style>
+:root{
+  --bg:#0b0f16; --panel:#121927; --panel2:#182033; --line:#26314a; --text:#e8edf6; --muted:#9aa7bd;
+  --accent:#ffb347; --accent2:#2bd4bd; --ink:#1b1204; --warn:#ff7a59;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Bengali","Nirmala UI",Helvetica,Arial,sans-serif}
+a{color:var(--accent2)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:5;background:rgba(11,15,22,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;color:var(--text)}
+.logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#ffc56b,#ff9a2e);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:13px}
+nav{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:14px}
+nav a{color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--text)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{background:none;border:0;color:var(--muted);padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--ink);font-weight:700}
+.bn{display:none}
+html[data-lang="bn"] .bn{display:revert}
+html[data-lang="bn"] .en{display:none}
+html[data-lang="bn"] span.bn,html[data-lang="bn"] a.bn,html[data-lang="bn"] b.bn,html[data-lang="bn"] i.bn,html[data-lang="bn"] code.bn{display:inline}
+.hero{padding:56px 0 32px;text-align:center}
+.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.14em;font-size:13px;text-transform:uppercase}
+h1{font-size:clamp(32px,6vw,54px);line-height:1.12;margin:10px 0 14px}
+.lead{max-width:720px;margin:0 auto;color:var(--muted);font-size:18px}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:28px 0 8px}
+.btn{display:inline-flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;padding:13px 26px;border-radius:14px;font-weight:700;border:1px solid transparent;min-width:230px}
+.btn small{font-weight:500;font-size:12.5px;opacity:.85}
+.btn.primary{background:linear-gradient(180deg,#ffc56b,#ffa133);color:var(--ink)}
+.btn.ghost{background:var(--panel);border-color:var(--line);color:var(--text)}
+.btn:hover{filter:brightness(1.08)}
+.fine{color:var(--muted);font-size:13.5px;text-align:center}
+section{padding:44px 0;border-top:1px solid var(--line)}
+h2{font-size:28px;margin:0 0 8px}
+h3{margin:0 0 6px;font-size:18px}
+.sub{color:var(--muted);margin:0 0 22px;max-width:760px}
+.shot{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.cap{color:var(--muted);font-size:13.5px;margin:8px 0 0;text-align:center}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card p{margin:6px 0 0;color:var(--muted)}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);margin-bottom:8px}
+.dl h3{font-size:22px}
+.dl .btn{width:100%;margin-top:14px}
+.hash{font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);word-break:break-all;margin-top:12px}
+ol.steps{margin:10px 0 0;padding-left:22px}
+ol.steps li{margin:8px 0}
+code,.mono{font:13.5px ui-monospace,Menlo,Consolas,monospace;background:#0a0e15;border:1px solid var(--line);border-radius:6px;padding:1px 6px;word-break:break-word}
+pre{margin:10px 0;background:#0a0e15;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow:auto;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+th,td{padding:14px 18px;text-align:left}
+th{background:var(--panel2);color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+tr+tr td{border-top:1px solid var(--line)}
+td.price{font-weight:800;font-size:20px;color:var(--accent);white-space:nowrap}
+tr.best td{background:rgba(255,179,71,.07)}
+.note{border-left:4px solid var(--accent2);background:var(--panel);padding:14px 18px;border-radius:0 12px 12px 0;margin:18px 0;color:var(--muted)}
+.note.warn{border-left-color:var(--warn)}
+.note b{color:var(--text)}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 18px;margin:10px 0}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);margin:8px 0 0}
+footer{padding:34px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;text-align:center}
+@media (max-width:560px){th,td{padding:12px}.btn{min-width:0;width:100%}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="logo">JM</span><span>JM Vocal Channel</span></a>
+    <nav>
+      <a href="#features"><span class="en">Features</span><span class="bn">ফিচার</span></a>
+      <a href="#download"><span class="en">Download</span><span class="bn">ডাউনলোড</span></a>
+      <a href="#install"><span class="en">Install</span><span class="bn">ইনস্টল</span></a>
+      <a href="#licence"><span class="en">Licence &amp; prices</span><span class="bn">লাইসেন্স ও দাম</span></a>
+      <span class="lang" role="group" aria-label="Language">
+        <button type="button" data-set="en" aria-pressed="true">EN</button>
+        <button type="button" data-set="bn" aria-pressed="false">বাংলা</button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">JM Records</div>
+  <h1><span class="en">One plug-in for the whole vocal mix.</span><span class="bn">পুরো ভোকাল মিক্সের জন্য একটাই প্লাগ-ইন।</span></h1>
+  <p class="lead en">EQ, de-esser, three compressor stages, saturation and colour in one window. Press <b>LEARN</b>, play the vocal, pick the kind of vocal it is — and you are done. Zero latency.</p>
+  <p class="lead bn">EQ, de-esser, তিনটি compressor stage, saturation আর colour — সব এক উইন্ডোতে। <b>LEARN</b> চাপুন, ভোকাল বাজান, কোন ধরনের ভোকাল বেছে নিন — ব্যস। Latency শূন্য।</p>
+  <div class="cta">
+    <a class="btn primary" href="#download"><span class="en">Download</span><span class="bn">ডাউনলোড</span><small><span class="en">macOS (AU, VST3) · Windows (VST3)</span><span class="bn">macOS (AU, VST3) · Windows (VST3)</span></small></a>
+    <a class="btn ghost" href="#licence"><span class="en">Licence key &amp; prices</span><span class="bn">লাইসেন্স কী ও দাম</span><small><span class="en">from ₹500 · sent by e-mail</span><span class="bn">₹৫০০ থেকে · ই-মেইলে পাঠানো হয়</span></small></a>
+  </div>
+  <p class="fine en">The plug-in needs a licence key to process audio. Without one it passes your audio through unchanged.</p>
+  <p class="fine bn">অডিও প্রসেস করতে plug-in-এর লাইসেন্স কী লাগে। কী না থাকলে আপনার অডিও অপরিবর্তিত পাস হয়ে যায়।</p>
+</div>
+
+<img class="shot" src="img/editor_main.png" alt="JM Vocal Channel main window: vocal style list, COLOUR / STRENGTH / FEEL, MAX COMPRESSION, SPEED, AMOUNT and DE-ESS knobs, and the signal chain on the right" width="1500" height="697">
+<p class="cap en">The main window: pick a sound on the left, shape it in the middle, watch the eight stages on the right.</p>
+<p class="cap bn">মূল উইন্ডো: বাঁদিকে sound বাছুন, মাঝখানে আকার দিন, ডানদিকে আটটি stage দেখুন।</p>
+</div>
+
+<section id="features"><div class="wrap">
+  <h2><span class="en">What it does</span><span class="bn">এটা কী করে</span></h2>
+  <p class="sub en">One plug-in handles the tonal and dynamic side of a vocal. Reverb and delay are left out on purpose: put them on a bus, as usual.</p>
+  <p class="sub bn">একটা plug-in ভোকালের tone আর dynamics-এর কাজ সামলায়। Reverb আর delay ইচ্ছে করেই ভেতরে নেই: আগের মতো bus-এ দিন।</p>
+  <div class="grid g3">
+    <div class="card"><h3>LEARN</h3>
+      <p class="en">Listens to your real voice for 8–15 seconds: how loud, how wide the dynamics, how dark or bright, how much rumble and how sharp the S sounds are. It never changes the sound while it listens.</p>
+      <p class="bn">আপনার আসল কণ্ঠ ৮–১৫ সেকেন্ড শোনে: কত জোরে, dynamics কত চওড়া, কত অন্ধকার বা উজ্জ্বল, কত rumble, S কত তীক্ষ্ণ। শোনার সময় sound বদলায় না।</p></div>
+    <div class="card"><h3><span class="en">12.47 million vocal types</span><span class="bn">১ কোটি ২৪ লক্ষ+ vocal type</span></h3>
+      <p class="en">Eight choices (Style, Voice, Range, Source, Role, Era, Intensity, Feel) give 12,474,000 starting points — Indian, Bengali, Pop, Rock, Urban, World, Speech and more. They are generated from rules: good starting points, your ears decide.</p>
+      <p class="bn">আটটি পছন্দ (Style, Voice, Range, Source, Role, Era, Intensity, Feel) মিলিয়ে ১,২৪,৭৪,০০০ শুরুর বিন্দু — Indian, Bengali, Pop, Rock, Urban, World, Speech ও আরও। এগুলো নিয়ম থেকে তৈরি: ভালো শুরুর বিন্দু, শেষ সিদ্ধান্ত আপনার কানের।</p></div>
+    <div class="card"><h3><span class="en">Eight-stage chain</span><span class="bn">আট stage-এর chain</span></h3>
+      <p class="en">EQ, de-esser, leveler, FET-style compressor, opto-style compressor, a catch compressor, saturation and a colour stage. Click a stage to switch it off and hear the difference.</p>
+      <p class="bn">EQ, de-esser, leveler, FET-ধরনের compressor, opto-ধরনের compressor, একটি catch compressor, saturation ও colour stage। কোনো stage-এ ক্লিক করে বন্ধ করে পার্থক্য শুনুন।</p></div>
+    <div class="card"><h3><span class="en">Zero latency</span><span class="bn">শূন্য latency</span></h3>
+      <p class="en">The signal path is analog-modelled: no look-ahead and no FFT in the audio path. It can be used on a live input and needs no delay compensation.</p>
+      <p class="bn">Signal path analog-modelled: look-ahead নেই, audio path-এ FFT নেই। Live input-এও চলে, delay compensation লাগে না।</p></div>
+    <div class="card"><h3><span class="en">Simple first, Advanced when you want</span><span class="bn">আগে সহজ, দরকারে Advanced</span></h3>
+      <p class="en">Main screen: COLOUR, STRENGTH, FEEL, MAX COMPRESSION, LOW, HIGH, SPEED, AMOUNT, DE-ESS, MIX and OUTPUT. ADVANCED shows the EQ, high-pass, saturation and input values the sound has set, so you can nudge them.</p>
+      <p class="bn">মূল স্ক্রিন: COLOUR, STRENGTH, FEEL, MAX COMPRESSION, LOW, HIGH, SPEED, AMOUNT, DE-ESS, MIX ও OUTPUT। ADVANCED-এ sound যা বসিয়েছে সেই EQ, high-pass, saturation ও input মান দেখা যায়, আর একটু নাড়ানো যায়।</p></div>
+    <div class="card"><h3><span class="en">Honest by design</span><span class="bn">সৎভাবে তৈরি</span></h3>
+      <p class="en">No claim is made that it matches any hardware unit. The numbers are starting points measured on nine real dry vocals. Full manual in English and Bengali below.</p>
+      <p class="bn">কোনো hardware-এর সঙ্গে মিল থাকার দাবি করা হয় না। সংখ্যাগুলো নয়টি আসল dry vocal মেপে নেওয়া শুরুর মান। ইংরেজি ও বাংলায় পূর্ণ manual নিচে আছে।</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:22px">
+    <figure style="margin:0"><img class="shot" src="img/editor_setup.png" alt="Setup screen: choose Voice, Range, Source and Role, then press LEARN" loading="lazy" width="1500" height="696"><p class="cap en">Setup screen: say what kind of vocal it is, then press LEARN.</p><p class="cap bn">Setup স্ক্রিন: কোন ধরনের ভোকাল বলুন, তারপর LEARN চাপুন।</p></figure>
+    <figure style="margin:0"><img class="shot" src="img/editor_adv.png" alt="ADVANCED panel open under the main window" loading="lazy" width="1500" height="1039"><p class="cap en">ADVANCED panel: the EQ, high-pass, saturation and input values.</p><p class="cap bn">ADVANCED panel: EQ, high-pass, saturation ও input মান।</p></figure>
+  </div>
+</div></section>
+
+<section id="download"><div class="wrap">
+  <h2><span class="en">Download</span><span class="bn">ডাউনলোড</span></h2>
+  <p class="sub en">Version 1.0. Free to download; a licence key is needed to use it (see below).</p>
+  <p class="sub bn">সংস্করণ ১.০। ডাউনলোড বিনামূল্যে; ব্যবহার করতে লাইসেন্স কী লাগে (নিচে দেখুন)।</p>
+  <div class="grid g2 dl">
+    <div class="card">
+      <span class="tag">macOS</span>
+      <h3>JM Vocal Channel for macOS</h3>
+      <p class="en">Audio Unit (AU), VST3 and Standalone app. For <b>Apple Silicon Macs</b> (M1 or newer). Not built for Intel Macs.</p>
+      <p class="bn">Audio Unit (AU), VST3 ও Standalone app। <b>Apple Silicon Mac</b> (M1 বা নতুন)-এর জন্য। Intel Mac-এর জন্য তৈরি নয়।</p>
+      <a class="btn primary" href="https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-macOS.zip"><span class="en">Download for macOS</span><span class="bn">macOS-এর জন্য ডাউনলোড</span><small>JM-Vocal-Channel-macOS.zip · 4.8 MB</small></a>
+      <div class="hash">SHA-256<br>04bd296363fcd28fbcf0d981c3633d21d97b6c8d70481525a13eb19bf2054d91</div>
+    </div>
+    <div class="card">
+      <span class="tag">Windows</span>
+      <h3>JM Vocal Channel for Windows</h3>
+      <p class="en">VST3, 64-bit. Needs a 64-bit DAW. This is the first Windows release: if anything misbehaves in your DAW, please write to us.</p>
+      <p class="bn">VST3, 64-bit। 64-bit DAW লাগবে। এটা প্রথম Windows রিলিজ: আপনার DAW-তে কিছু গোলমাল হলে অনুগ্রহ করে আমাদের লিখুন।</p>
+      <a class="btn primary" href="https://github.com/iamthearpan/jm-vocal-channel-download/releases/latest/download/JM-Vocal-Channel-Windows-VST3.zip"><span class="en">Download for Windows</span><span class="bn">Windows-এর জন্য ডাউনলোড</span><small>JM-Vocal-Channel-Windows-VST3.zip · 1.6 MB</small></a>
+      <div class="hash">SHA-256<br>504cc446ab4ed6c9ea2bf5ac0229f5907b0d49e9f5dd719cf2841503f5067733</div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3><span class="en">Manual (English)</span><span class="bn">Manual (ইংরেজি)</span></h3><p class="en">Full user manual, PDF.</p><p class="bn">পূর্ণ ব্যবহার নির্দেশিকা, PDF।</p><p><a href="manual/Vocal_Channel_Manual_EN.pdf">Vocal_Channel_Manual_EN.pdf</a></p></div>
+    <div class="card"><h3><span class="en">Manual (Bengali)</span><span class="bn">Manual (বাংলা)</span></h3><p class="en">Full user manual in Bengali, PDF.</p><p class="bn">বাংলায় পূর্ণ ব্যবহার নির্দেশিকা, PDF।</p><p><a href="manual/Vocal_Channel_Manual_BN.pdf">Vocal_Channel_Manual_BN.pdf</a></p></div>
+  </div>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <h2><span class="en">Install</span><span class="bn">ইনস্টল</span></h2>
+  <div class="grid g2">
+    <div class="card">
+      <span class="tag">macOS</span>
+      <h3><span class="en">Install on macOS</span><span class="bn">macOS-এ ইনস্টল</span></h3>
+      <ol class="steps en">
+        <li>Download and unzip <code>JM-Vocal-Channel-macOS.zip</code>. You get the AU, the VST3 and the Standalone app.</li>
+        <li>Copy <code>JM Vocal Channel.component</code> to <code>~/Library/Audio/Plug-Ins/Components/</code> (for Logic Pro, GarageBand and other AU hosts).</li>
+        <li>Copy <code>JM Vocal Channel.vst3</code> to <code>~/Library/Audio/Plug-Ins/VST3/</code> (for DAWs that use VST3).</li>
+        <li>The build is not notarized by Apple, so macOS may say the plug-in is damaged or from an unidentified developer. Run this once in Terminal and press Return:
+<pre>xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/"JM Vocal Channel.component" ~/Library/Audio/Plug-Ins/VST3/"JM Vocal Channel.vst3"</pre>
+        For the Standalone app, open it with a right-click → Open the first time.</li>
+        <li>Open your DAW and rescan plug-ins. If it is not listed, quit the DAW, run <code>killall -9 AudioComponentRegistrar</code> in Terminal, and rescan.</li>
+      </ol>
+      <ol class="steps bn">
+        <li><code>JM-Vocal-Channel-macOS.zip</code> ডাউনলোড করে unzip করুন। AU, VST3 ও Standalone app পাবেন।</li>
+        <li><code>JM Vocal Channel.component</code> কপি করুন <code>~/Library/Audio/Plug-Ins/Components/</code>-এ (Logic Pro, GarageBand ও অন্য AU host-এর জন্য)।</li>
+        <li><code>JM Vocal Channel.vst3</code> কপি করুন <code>~/Library/Audio/Plug-Ins/VST3/</code>-এ (যে DAW VST3 ব্যবহার করে তার জন্য)।</li>
+        <li>Build-টি Apple-এর notarize করা নয়, তাই macOS বলতে পারে plug-in নষ্ট বা অচেনা developer-এর। Terminal-এ একবার এটা চালিয়ে Return চাপুন:
+<pre>xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/"JM Vocal Channel.component" ~/Library/Audio/Plug-Ins/VST3/"JM Vocal Channel.vst3"</pre>
+        Standalone app প্রথমবার right-click → Open দিয়ে খুলুন।</li>
+        <li>DAW খুলে plug-in আবার scan করুন। তালিকায় না এলে DAW বন্ধ করে Terminal-এ <code>killall -9 AudioComponentRegistrar</code> চালান, তারপর scan করুন।</li>
+      </ol>
+    </div>
+    <div class="card">
+      <span class="tag">Windows</span>
+      <h3><span class="en">Install on Windows</span><span class="bn">Windows-এ ইনস্টল</span></h3>
+      <ol class="steps en">
+        <li>Download <code>JM-Vocal-Channel-Windows-VST3.zip</code>, right-click it and choose <b>Extract All</b>.</li>
+        <li>Open the extracted folder. Inside is a folder named <code>JM Vocal Channel.vst3</code> — it is a <b>folder</b>, and it must stay whole.</li>
+        <li>Copy that whole folder to <code>C:\Program Files\Common Files\VST3\</code>. Windows asks for administrator permission: choose <b>Continue</b>.</li>
+        <li>Open your DAW and rescan plug-ins (many DAWs do it at start-up). Insert <b>JM Vocal Channel</b> on a vocal track.</li>
+        <li>Windows SmartScreen or an antivirus program may warn, because the file is not code-signed. If you trust it, choose <b>More info → Run anyway</b>, or allow the file.</li>
+        <li>If it does not load on a computer that never had other plug-ins, install the <i>Microsoft Visual C++ Redistributable (x64)</i> from Microsoft, then rescan.</li>
+      </ol>
+      <ol class="steps bn">
+        <li><code>JM-Vocal-Channel-Windows-VST3.zip</code> ডাউনলোড করে right-click করুন, <b>Extract All</b> বেছে নিন।</li>
+        <li>বের হওয়া folder খুলুন। ভেতরে <code>JM Vocal Channel.vst3</code> নামে একটি <b>folder</b> আছে — এটা folder-ই, আর পুরোটা অক্ষত থাকতে হবে।</li>
+        <li>ওই পুরো folder কপি করুন <code>C:\Program Files\Common Files\VST3\</code>-এ। Windows administrator অনুমতি চাইবে: <b>Continue</b> চাপুন।</li>
+        <li>DAW খুলে plug-in আবার scan করুন (অনেক DAW চালু হওয়ার সময় নিজেই করে)। ভোকাল track-এ <b>JM Vocal Channel</b> insert করুন।</li>
+        <li>ফাইল code-signed নয় বলে Windows SmartScreen বা antivirus সতর্কতা দিতে পারে। ভরসা থাকলে <b>More info → Run anyway</b> দিন বা ফাইলটি allow করুন।</li>
+        <li>যে কম্পিউটারে আগে কোনো plug-in ছিল না, সেখানে load না হলে Microsoft-এর <i>Visual C++ Redistributable (x64)</i> install করুন, তারপর scan করুন।</li>
+      </ol>
+    </div>
+  </div>
+  <div class="note en"><b>Using it.</b> Insert it first on a mono or stereo vocal track, before any reverb or delay. The setup screen opens first: choose the vocal, press LEARN while the vocal plays, then pick a sound. To enter your key, click the button at the bottom right (it says ENTER YOUR LICENCE KEY) and paste the key. You enter it only once per computer user.</div>
+  <div class="note bn"><b>ব্যবহার।</b> Mono বা stereo ভোকাল track-এ reverb/delay-র আগে সবার আগে insert করুন। প্রথমে setup স্ক্রিন খোলে: ভোকাল বেছে নিন, ভোকাল বাজার সময় LEARN চাপুন, তারপর sound বাছুন। কী বসাতে নিচে ডানদিকের বোতামে (ENTER YOUR LICENCE KEY লেখা) ক্লিক করে কী paste করুন। প্রতি কম্পিউটার-ইউজারে একবারই বসাতে হয়।</div>
+</div></section>
+
+<section id="licence"><div class="wrap">
+  <h2><span class="en">Licence key &amp; prices</span><span class="bn">লাইসেন্স কী ও দাম</span></h2>
+  <p class="sub en">Choose how long you need the plug-in. Prices are in Indian rupees (₹). Keys are sent by e-mail by hand, so please allow some time for the reply.</p>
+  <p class="sub bn">কতদিনের জন্য plug-in লাগবে বেছে নিন। দাম ভারতীয় টাকায় (₹)। কী হাতে হাতে ই-মেইলে পাঠানো হয়, তাই উত্তরের জন্য একটু সময় দিন।</p>
+  <table>
+    <thead><tr><th><span class="en">Licence</span><span class="bn">লাইসেন্স</span></th><th><span class="en">Price</span><span class="bn">দাম</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en">1 day</span><span class="bn">১ দিন</span></td><td class="price">₹500</td></tr>
+      <tr><td><span class="en">1 week</span><span class="bn">১ সপ্তাহ</span></td><td class="price">₹1,000</td></tr>
+      <tr><td><span class="en">1 month</span><span class="bn">১ মাস</span></td><td class="price">₹3,000</td></tr>
+      <tr><td><span class="en">6 months</span><span class="bn">৬ মাস</span></td><td class="price">₹15,000</td></tr>
+      <tr><td><span class="en">1 year</span><span class="bn">১ বছর</span></td><td class="price">₹25,000</td></tr>
+      <tr class="best"><td><span class="en"><b>Lifetime</b> (permanent key, never expires)</span><span class="bn"><b>আজীবন</b> (স্থায়ী কী, কখনও শেষ হয় না)</span></td><td class="price">₹50,000</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card" style="margin-top:22px">
+    <h3><span class="en">How to get your key</span><span class="bn">কী কীভাবে পাবেন</span></h3>
+    <ol class="steps en">
+      <li>Write an e-mail to <a href="mailto:__CONTACT_EMAIL__?subject=JM%20Vocal%20Channel%20licence%20key&amp;body=Name%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0ALicence%20(1%20day%20%2F%201%20week%20%2F%201%20month%20%2F%206%20months%20%2F%201%20year%20%2F%20Lifetime)%3A%0AWindows%20or%20macOS%3A%0A"><b>__CONTACT_EMAIL__</b></a> with your name, the licence you want, and the e-mail address the key should be made for.</li>
+      <li>We reply with the payment details.</li>
+      <li>After the payment is confirmed, we send your licence key by e-mail.</li>
+      <li>Open the plug-in, click the licence button at the bottom right and paste the key.</li>
+    </ol>
+    <ol class="steps bn">
+      <li><a href="mailto:__CONTACT_EMAIL__?subject=JM%20Vocal%20Channel%20licence%20key&amp;body=Name%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0ALicence%20(1%20day%20%2F%201%20week%20%2F%201%20month%20%2F%206%20months%20%2F%201%20year%20%2F%20Lifetime)%3A%0AWindows%20or%20macOS%3A%0A"><b>__CONTACT_EMAIL__</b></a>-এ ই-মেইল লিখুন: আপনার নাম, কোন লাইসেন্স চান, আর যে ই-মেইল ঠিকানার জন্য কী বানাতে হবে।</li>
+      <li>আমরা পেমেন্টের তথ্য জানিয়ে উত্তর দেব।</li>
+      <li>পেমেন্ট নিশ্চিত হলে ই-মেইলে লাইসেন্স কী পাঠানো হবে।</li>
+      <li>Plug-in খুলে নিচে ডানদিকের লাইসেন্স বোতামে ক্লিক করে কী paste করুন।</li>
+    </ol>
+  </div>
+  <div class="note en"><b>Good to know.</b> A key is made for the e-mail address you give and is pasted into the plug-in once per computer user. A timed key starts on the day it is made. A lifetime key never expires. Your projects, presets and settings are kept when a key ends; when a new key is entered everything sounds exactly as before.</div>
+  <div class="note bn"><b>জেনে রাখুন।</b> কী আপনার দেওয়া ই-মেইল ঠিকানার জন্য তৈরি হয় এবং প্রতি কম্পিউটার-ইউজারে একবার plug-in-এ paste করতে হয়। সময়সীমার কী যেদিন তৈরি হয় সেদিন থেকে শুরু হয়। আজীবন কী কখনও শেষ হয় না। কী শেষ হলেও আপনার project, preset ও সেটিং থেকে যায়; নতুন কী বসালে সব আগের মতোই শোনায়।</div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <h2><span class="en">Questions</span><span class="bn">প্রশ্ন</span></h2>
+  <details><summary><span class="en">What happens without a valid key?</span><span class="bn">বৈধ কী না থাকলে কী হয়?</span></summary>
+    <p class="en">The plug-in does not change the sound at all: your audio passes through unprocessed. The button at the bottom right tells you what is wrong (no key, key ended, key not valid, or check the computer date).</p>
+    <p class="bn">Plug-in সাউন্ড একটুও বদলায় না: আপনার অডিও অপরিবর্তিত পাস হয়ে যায়। নিচে ডানদিকের বোতাম বলে দেয় কী সমস্যা (কী নেই, কী শেষ, কী অবৈধ, বা কম্পিউটারের তারিখ দেখুন)।</p></details>
+  <details><summary><span class="en">Does it work offline?</span><span class="bn">অফলাইনে চলে?</span></summary>
+    <p class="en">Yes. The key is checked inside the plug-in; no internet connection is needed. The plug-in notices if the computer clock is turned back.</p>
+    <p class="bn">হ্যাঁ। কী plug-in-এর ভেতরেই যাচাই হয়; ইন্টারনেট লাগে না। কম্পিউটারের ঘড়ি পেছনে ঘোরালে plug-in তা ধরে ফেলে।</p></details>
+  <details><summary><span class="en">Which DAWs and formats?</span><span class="bn">কোন DAW ও format?</span></summary>
+    <p class="en">macOS: Audio Unit, VST3 and Standalone, on Apple Silicon. Windows: 64-bit VST3. Mono and stereo tracks both work, and no delay compensation is needed (0 samples of latency).</p>
+    <p class="bn">macOS: Audio Unit, VST3 ও Standalone, Apple Silicon-এ। Windows: 64-bit VST3। Mono ও stereo দুই রকম track-ই চলে, delay compensation লাগে না (০ sample latency)।</p></details>
+  <details><summary><span class="en">Is it code-signed?</span><span class="bn">এটা কি code-signed?</span></summary>
+    <p class="en">Not yet. That is why macOS asks for the one-time Terminal step and Windows may show a SmartScreen warning. The SHA-256 values above let you check that your download is the file we published.</p>
+    <p class="bn">এখনও না। তাই macOS-এ একবার Terminal ধাপ লাগে আর Windows SmartScreen সতর্কতা দিতে পারে। উপরের SHA-256 মান দিয়ে মিলিয়ে দেখতে পারেন আপনার ডাউনলোড আমাদের প্রকাশ করা ফাইলই কি না।</p></details>
+  <details><summary><span class="en">Does it match a hardware unit?</span><span class="bn">এটা কি কোনো hardware-এর সঙ্গে মেলে?</span></summary>
+    <p class="en">No such claim is made. It is analog-modelled with starting points measured on real vocals; your ears decide the final setting.</p>
+    <p class="bn">এমন কোনো দাবি করা হয় না। এটা analog-modelled, শুরুর মানগুলো আসল ভোকাল মেপে নেওয়া; শেষ সিদ্ধান্ত আপনার কানের।</p></details>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">
+  <p>© JM Records · JM Vocal Channel 1.0 · <a href="mailto:__CONTACT_EMAIL__">__CONTACT_EMAIL__</a></p>
+  <p class="en">All product names mentioned belong to their owners. JM Records is not affiliated with any hardware maker.</p>
+  <p class="bn">উল্লেখ করা সব product-এর নাম তাদের মালিকদের। JM Records কোনো hardware প্রস্তুতকারকের সঙ্গে যুক্ত নয়।</p>
+</div></footer>
+
+<script>
+(function () {
+  var root = document.documentElement, buttons = document.querySelectorAll('.lang button');
+  function set(l) {
+    root.setAttribute('data-lang', l); root.lang = l === 'bn' ? 'bn' : 'en';
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-set') === l ? 'true' : 'false'); });
+    try { localStorage.setItem('jmvc-lang', l); } catch (e) {}
+  }
+  var saved = null; try { saved = localStorage.getItem('jmvc-lang'); } catch (e) {}
+  set(saved || ((navigator.language || '').toLowerCase().indexOf('bn') === 0 ? 'bn' : 'en'));
+  buttons.forEach(function (b) { b.addEventListener('click', function () { set(b.getAttribute('data-set')); }); });
+})();
+</script>
+</body>
+</html>
