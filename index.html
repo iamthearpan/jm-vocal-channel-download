@@ -192,16 +192,14 @@ code,.mono{font:500 13.5px/1.55 var(--mono);color:#d6e1f5;background:#080b11;bor
 
 /* pricing */
 .plans{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media(min-width:820px){.plans{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.plan:last-child{grid-column:1/-1}
+@media(min-width:820px){.plans{grid-template-columns:repeat(3,minmax(0,1fr))}.plan:last-child{grid-column:auto}}
+@media(min-width:1000px){.plans{grid-template-columns:repeat(5,minmax(0,1fr))}}
 .plan{padding:22px 20px;border-radius:20px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);display:flex;flex-direction:column;gap:6px;position:relative;transition:transform .2s,border-color .2s}
 .plan:hover{transform:translateY(-3px);border-color:var(--line2)}
 .plan .dur{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:600;font-size:15px}
 .plan .amt{font:800 clamp(30px,6.4vw,44px)/1.05 var(--display);letter-spacing:-.04em;margin:10px 0 14px}
 .plan .btn{margin-top:auto;width:100%;white-space:nowrap}
-.plan.life{grid-column:1/-1;background:radial-gradient(80% 140% at 100% 0%,rgba(255,168,58,.2),transparent 60%),linear-gradient(180deg,var(--panel2),var(--panel));border-color:rgba(255,168,58,.5);box-shadow:0 24px 70px -34px rgba(255,168,58,.6)}
-.plan.life .amt{background:linear-gradient(100deg,#ffd089,#ffa83a);-webkit-background-clip:text;background-clip:text;color:transparent}
-.plan .tag{align-self:flex-start;margin-bottom:6px;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:var(--amber);color:var(--ink)}
-@media(min-width:820px){.plan .tag{position:absolute;top:16px;right:16px;margin:0}.plan.life{display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 30px}.plan.life .btn{width:auto;min-width:220px;margin:0}}
 .fine{color:var(--dim);font-size:14px;margin:16px 4px 0}
 .keysteps{display:grid;gap:14px;margin-top:38px}
 @media(min-width:820px){.keysteps{grid-template-columns:repeat(4,1fr)}}
@@ -270,7 +268,6 @@ html.js .rv.in{opacity:1;transform:none}
     <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
     <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
-    <symbol id="i-inf" viewBox="0 0 24 24"><path d="M12 12c-2-3-3.5-4-5.5-4a4 4 0 000 8c2 0 3.5-1 5.5-4s3.5-4 5.5-4a4 4 0 010 8c-2 0-3.5-1-5.5-4z"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 10l3 2-3 2M12 15h5"/></symbol>
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
@@ -522,14 +519,11 @@ html.js .rv.in{opacity:1;transform:none}
         <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%201%20month&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%201%20month%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
       <article class="plan rv"><div class="dur"><svg class="i"><use href="#i-cal"/></svg><span class="en">6 months</span><span class="bn">৬ মাস</span></div><div class="amt">₹15,000</div>
         <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%206%20months&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%206%20months%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
-      <article class="plan rv" style="--dl:.05s"><div class="dur"><svg class="i"><use href="#i-cal"/></svg><span class="en">1 year</span><span class="bn">১ বছর</span></div><div class="amt">₹25,000</div>
+      <article class="plan rv" style="--dl:.05s"><div class="dur"><svg class="i"><use href="#i-cal"/></svg><span class="en">1 year</span><span class="bn">১ বছর</span></div><div class="amt">₹20,000</div>
         <a class="btn btn-g btn-sm" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%201%20year&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%201%20year%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Get key</span><span class="bn">কী চাই</span></a></article>
-      <article class="plan life rv" style="--dl:.1s"><span class="tag"><span class="en">Never expires</span><span class="bn">কখনও শেষ হয় না</span></span>
-        <div><div class="dur"><svg class="i"><use href="#i-inf"/></svg><span class="en">Lifetime · permanent key</span><span class="bn">আজীবন · স্থায়ী কী</span></div><div class="amt">₹50,000</div></div>
-        <a class="btn btn-p" href="mailto:itsjmrecords@gmail.com?subject=JM%20Vocal%20Channel%20licence%20-%20Lifetime&amp;body=Hello%20JM%20Records%2C%0A%0AI%20would%20like%20a%20licence%20key.%0APlan%3A%20Lifetime%0AName%3A%0AE-mail%20to%20register%20the%20key%20to%3A%0AWindows%20or%20macOS%3A%0A"><svg class="i"><use href="#i-mail"/></svg><span class="en">Request lifetime key</span><span class="bn">আজীবন কী চাই</span></a></article>
     </div>
-    <p class="fine en">A key is made for the e-mail address you give. A timed key starts on the day it is made. Your projects, presets and settings are kept when a key ends, and when a new key is entered everything sounds exactly as before.</p>
-    <p class="fine bn">কী আপনার দেওয়া ই-মেইল ঠিকানার জন্য তৈরি হয়। সময়সীমার কী যেদিন তৈরি হয় সেদিন থেকে শুরু হয়। কী শেষ হলেও আপনার project, preset ও সেটিং থেকে যায়, আর নতুন কী বসালে সব আগের মতোই শোনায়।</p>
+    <p class="fine en">A key is made for the e-mail address you give and starts on the day it is made. Your projects, presets and settings are kept when a key ends, and when a new key is entered everything sounds exactly as before.</p>
+    <p class="fine bn">কী আপনার দেওয়া ই-মেইল ঠিকানার জন্য তৈরি হয় এবং যেদিন তৈরি হয় সেদিন থেকে শুরু হয়। কী শেষ হলেও আপনার project, preset ও সেটিং থেকে যায়, আর নতুন কী বসালে সব আগের মতোই শোনায়।</p>
 
     <div class="keysteps">
       <div class="ks rv"><span class="n">01</span><h3><span class="en">Write to us</span><span class="bn">আমাদের লিখুন</span></h3><p class="en">Tap a plan above, or e-mail your name, the plan, and the e-mail the key is for.</p><p class="bn">উপরে কোনো plan-এ ট্যাপ করুন, বা আপনার নাম, plan আর কীর ই-মেইল লিখে পাঠান।</p></div>
